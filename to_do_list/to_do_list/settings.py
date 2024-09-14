@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_bootstrap5',
     'debug_toolbar',
     'core',
 ]
@@ -43,6 +44,9 @@ ROOT_URLCONF = 'to_do_list.urls'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
