@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'debug_toolbar',
     'core',
+    'users',
+    'tasks',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
+
+AUTH_USER_MODEL = 'users.User'
+TEST_EMAIL = 'Testforrest2024@gmail.com'
 
 TEMPLATES = [
     {
