@@ -12,6 +12,8 @@
   <strong>{{ task.title }}</strong><br>
   Дата выполнения: {{ task.due_date }}<br>
   Автор: {{ task.author }}<br>
+  <a href="{% url 'tasks:update' task.pk %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Редактировать задачу</a>
+  <a href="{% url 'tasks:delete' task.pk %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Удалить задачу</a>
 </li>
 <br>
 {% empty %}
