@@ -11,7 +11,6 @@ class TaskListView(ListView):
     model = Task
     ordering = 'id'
     paginate_by = 10
-    # form_class = TaskForm
     # context_object_name = 'tasks' # обращение через tasks, а не через object_list
 
 
@@ -30,10 +29,11 @@ class TaskUpdateView(UpdateView):
 
 
 class TaskDeleteView(DeleteView):
-    template_name = 'tasks/birthday_confirm_delete.html'
+    template_name = 'tasks/task_confirm_delete.html'
     model = Task
     success_url = reverse_lazy('tasks:list')
 
 
 class TaskDetailView(DetailView):
-    pass
+    template_name = 'tasks/task_detail.html'
+    model = Task

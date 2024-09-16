@@ -11,6 +11,3 @@ urlpatterns = [
     path('delete/<int:pk>/', views.TaskDeleteView.as_view(), name='delete'),
     path('detail/<int:pk>/', views.TaskDetailView.as_view(), name='detail'),
 ]
-
-
-
