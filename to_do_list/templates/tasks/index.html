@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<h1>What are you going to do?</h1>
+<p class="lead">To Do List planner to make your life better. Try it now!</p>
+<p class="lead">
+  <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Let's plan your life!</a>
+</p>
+<div>
+    <a href="{% url 'tasks:list' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Список задач</a>
+</div>
+{% endblock %}

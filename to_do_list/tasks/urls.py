@@ -2,8 +2,11 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 
-app_name = 'core'
+app_name = 'tasks'
 
 urlpatterns = [
-    path('', views.HomePage.as_view(), name='homepage'),
+    path('list/', views.TasksListView.as_view(), name='list'),
 ]
+
+
+

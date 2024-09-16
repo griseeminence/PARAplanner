@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div><h1>Список всех задач:</h1><br></div>
+
+<div>
+{% for task in object_list %}
+<li style="text-align: left;">
+  <strong>{{ task.title }}</strong><br>
+  Дата выполнения: {{ task.due_date }}<br>
+  Автор: {{ task.author }}<br>
+</li>
+<br>
+{% empty %}
+    <p>Нет задач для отображения.</p>
+{% endfor %}
+</div>
+
+
+{% endblock %}
