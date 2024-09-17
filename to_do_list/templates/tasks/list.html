@@ -4,10 +4,17 @@
 
 {% block content %}
 
-<div><h1>Список всех задач:</h1><br></div>
 
+<h1>Список всех задач:</h1>
 <div>
+
+    <div>
+        <a href="{% url 'tasks:create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать задачу</a>
+    </div>
+    <br>
+
 {% for task in object_list %}
+
 <li style="text-align: left;">
   <a class="grid" href="{% url 'tasks:detail' task.pk %}" role="button">{{ task.title }}</a>
   <br>
@@ -19,7 +26,9 @@
 <br>
 {% empty %}
     <p>Нет задач для отображения.</p>
+
 {% endfor %}
+
 </div>
 
 

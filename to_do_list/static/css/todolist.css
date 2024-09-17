@@ -1,0 +1,19 @@
+/*# Custom CSS */
+
+.index_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.index_div {
+    padding: 20px;
+    background-color: lightgrey;
+}
+
+.grid-center {
+    display: grid;
+    place-items: center; /* Центрирует как по горизонтали, так и по вертикали */
+    height: 100vh; /* Высота контейнера равна высоте видимой области браузера */
+}

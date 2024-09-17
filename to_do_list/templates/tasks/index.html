@@ -3,18 +3,22 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+
+<div class="index_container">
+  <div class="index_div">
 <h1>What are you going to do?</h1>
 <p class="lead">To Do List planner to make your life better. Try it now!</p>
-<p class="lead">
-  <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Let's plan your life!</a>
-</p>
 
-<div>
-    <a href="{% url 'tasks:create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Создать задачу</a>
-</div>
-<br>
 
-<div>
-    <a href="{% url 'tasks:list' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Список задач</a>
+    <div>
+        <a href="{% url 'tasks:create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать задачу</a>
+    </div>
+    <br>
+
+    <div>
+        <a href="{% url 'tasks:list' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Список задач</a>
+    </div>
+    <br>
+  </div>
 </div>
 {% endblock %}

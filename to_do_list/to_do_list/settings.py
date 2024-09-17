@@ -53,7 +53,12 @@ MEDIA_URL = 'media/'
 TEMPLATES_DIR = BASE_DIR / 'templates'
 
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'core:homepage'
+
 TEST_EMAIL = 'Testforrest2024@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 TEMPLATES = [
     {
