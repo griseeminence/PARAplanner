@@ -18,7 +18,7 @@ class Task(models.Model):
     due_date = models.DateField('Дата выполнения', blank=True, null=True)
     priority = models.BooleanField('Приоритет', default=False)
     # attachment = models.FileField('Файл', blank=True, null=True)
-    author = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, related_name='tasks')
+    author = models.ForeignKey(User, verbose_name='Автор записи', blank=True, on_delete=models.CASCADE, related_name='tasks')
 
     class Meta:
         ordering = ['-id']

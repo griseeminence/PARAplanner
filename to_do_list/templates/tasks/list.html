@@ -20,8 +20,10 @@
   <br>
   Дата выполнения: {{ task.due_date }}<br>
   Автор: {{ task.author }}<br>
+  {% if task.author == user %}
   <a class="btn btn-info" href="{% url 'tasks:update' task.pk %}" role="button">Редактировать</a>
   <a class="btn btn-info" href="{% url 'tasks:delete' task.pk %}" role="button">Удалить</a>
+  {% endif %}
 </li>
 <br>
 {% empty %}
