@@ -11,14 +11,27 @@ STATUS_CHOICES = [
         (4, 'Архив'),
     ]
 
+
+
+class Tag(models.Model):
+    title = models.CharField('Название тега', max_length=25, unique=True)
+    description = models.TextField('Описание и примеры использования', max_length=100)
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
+
+    def __str__(self):
+        return self.title
+
 class Task(models.Model):
     title = models.CharField('Название', max_length=255)
     description = models.TextField('Описание', blank=True, max_length=1000)
     status = models.IntegerField('Статус', choices=STATUS_CHOICES, default=0)
     due_date = models.DateField('Дата выполнения', blank=True, null=True)
     priority = models.BooleanField('Приоритет', default=False)
-    # attachment = models.FileField('Файл', blank=True, null=True)
     author = models.ForeignKey(User, verbose_name='Автор записи', blank=True, on_delete=models.CASCADE, related_name='tasks')
+    tags = models.ManyToManyField(Tag, blank=True, related_name='tag_tasks')
 
     class Meta:
         ordering = ['-id']
@@ -28,3 +41,5 @@ class Task(models.Model):
     def __str__(self):
         author_name = self.author.username if self.author else "Unknown Author"
         return f'{self.title} by {author_name}. Status: {self.status}'
+
+
