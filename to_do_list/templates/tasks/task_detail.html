@@ -14,6 +14,23 @@
     Статус: {{ object.status }}<br>
     Приоритет: {{ object.priority }}<br>
   </div>
+  <h2>Комментарии</h2>
+  <div>
+      {% for comment in comments %}
+          <p><strong>{{ comment.author }}</strong> написал:</p>
+          <p>{{ comment.text }}</p>
+          <p><small>Добавлено: {{ comment.created }}</small></p>
+      {% empty %}
+          <p>Комментариев пока нет.</p>
+      {% endfor %}
+  </div>
+
+  <h2>Добавить комментарий</h2>
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Отправить</button>
+  </form>
 </div>
 
 

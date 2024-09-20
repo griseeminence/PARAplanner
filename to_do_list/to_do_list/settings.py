@@ -18,12 +18,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_select2', # Позволяет добавить выпадающий список с уже существующими объектами, а также создавать новые объекты на месте
     'django_bootstrap5',
     'debug_toolbar',
     'core',
     'users',
     'tasks',
+    'comments',
 
 ]
 
