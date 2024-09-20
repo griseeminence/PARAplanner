@@ -65,19 +65,12 @@ class TaskDetailView(DetailView, LoginRequiredMixin):
         return context
 
     def post(self, request, *args, **kwargs):
-        task = self.get_object()
+        task = self.get_object()  # Получаем задачу напрямую
         form = CommentForm(request.POST)
         if form.is_valid():
-            # Сохраняем комментарий, не отправляя его в базу данных (commit=False)
             comment = form.save(commit=False)
-            # Привязываем комментарий к задаче и пользователю
-            comment.task = task
-            comment.author = request.user
+            comment.author = request.user  # Устанавливаем автора
+            comment.task = task  # Устанавливаем задачу
             comment.save()
-            # Перенаправляем пользователя на ту же страницу задачи
-            return redirect(reverse('tasks:detail', kwargs={'pk': task.pk}))
-
-        # Если форма не валидна, возвращаемся на страницу с ошибками
-        context = self.get_context_data()
-        context['form'] = form
-        return self.render_to_response(context)
+            return redirect('tasks:detail', pk=task.pk)
+        return self.render_to_response(self.get_context_data(form=form))

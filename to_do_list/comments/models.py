@@ -5,6 +5,14 @@ from tasks.models import Task
 
 User = get_user_model()
 
+#TODO: использовать обобщённые связи (Generic Relations)
+# изменить привязку к tasks, сделав комментарии общедоступными для любой модели. Пример ниже
+# Обобщённые поля для связи с любой моделью
+# content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+# object_id = models.PositiveIntegerField()
+# content_object = GenericForeignKey('content_type', 'object_id')
+
+
 
 class Comment(models.Model):
     text = models.TextField('Текст комментария', max_length=2000)
