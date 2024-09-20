@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+
+
+<h1>Список всех задач:</h1>
+<div>
+    <div>
+        <a href="{% url 'para:area_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новую область</a>
+    </div>
+    <br>
+
+{% for area in object_list %}
+
+<li style="text-align: left;">
+  <a class="grid" href="{% url 'para:area_detail' area.pk %}" role="button">{{ area.title }}</a>
+  <br>
+  Дата выполнения: {{ area.description }}<br>
+  Автор: {{ area.author }}<br>
+  {% if area.author == user %}
+  <a class="btn btn-info" href="{% url 'para:area_update' area.pk %}" role="button">Редактировать</a>
+  <a class="btn btn-info" href="{% url 'para:area_delete' area.pk %}" role="button">Удалить</a>
+  {% endif %}
+</li>
+<br>
+{% empty %}
+    <p>Нет задач для отображения.</p>
+
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}
