@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'tasks',
     'comments',
     'para',
+    'notes',
 
 ]
 
