@@ -5,7 +5,7 @@
 {% block content %}
 
  <div>  <h1>Удалить запись {{ object.pk }}</h1> </div>
-<h2>Вы уверены, что область {{ object.title }} необходимо удалить? </h2>
+<h2>Вы уверены, что ресурс {{ object.title }} необходимо удалить? </h2>
   <div class="card col-12 text-white bg-secondary mb-3">
     <div class="card-header">
       {{ object.title }}<br>
@@ -25,9 +25,9 @@
     {% csrf_token %}
     {{ form.as_p }}
 
-  <button type="submit">{% if object %}Обновить область{% else %}Создать область{% endif %}</button>
+  <button type="submit">{% if object %}Обновить ресурс{% else %}Создать Ресурс{% endif %}</button>
   </form>
-  <a href="{% url 'para:area_list' %}">Назад к списку областей</a>
+  <a href="{% url 'para:resource_list' %}">Назад к списку ресурсов</a>
   </div>
 
 

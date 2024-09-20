@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+ <div><h1>{% if object %}Обновить Проект{% else %}Создать Проект{% endif %}</h1></div>
+  <div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+  <button type="submit">{% if object %}Обновить Проект{% else %}Создать Проект{% endif %}</button>
+  </form>
+  <a href="{% url 'para:project_list' %}">Назад к списку Проектов</a>
+  </div>
+
+
+{% endblock %}

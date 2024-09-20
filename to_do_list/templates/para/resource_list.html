@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+
+
+<h1>Список всех Ресурсов:</h1>
+<div>
+    <div>
+        <a href="{% url 'para:resource_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новый ресурс</a>
+    </div>
+    <br>
+
+{% for resource in object_list %}
+
+<li style="text-align: left;">
+  <a class="grid" href="{% url 'para:resource_detail' resource.pk %}" role="button">{{ resource.title }}</a>
+  <br>
+  Дата выполнения: {{ resource.description }}<br>
+  Автор: {{ resource.author }}<br>
+  {% if resource.author == user %}
+  <a class="btn btn-info" href="{% url 'para:resource_update' resource.pk %}" role="button">Редактировать</a>
+  <a class="btn btn-info" href="{% url 'para:resource_delete' resource.pk %}" role="button">Удалить</a>
+  {% endif %}
+</li>
+<br>
+{% empty %}
+    <p>Нет ресурсов для отображения.</p>
+
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

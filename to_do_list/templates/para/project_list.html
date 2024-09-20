@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+
+
+<h1>Список всех Проектов:</h1>
+<div>
+    <div>
+        <a href="{% url 'para:project_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новый проект</a>
+    </div>
+    <br>
+
+{% for project in object_list %}
+
+<li style="text-align: left;">
+  <a class="grid" href="{% url 'para:project_detail' project.pk %}" role="button">{{ project.title }}</a>
+  <br>
+  Дата выполнения: {{ project.description }}<br>
+  Автор: {{ project.author }}<br>
+  {% if project.author == user %}
+  <a class="btn btn-info" href="{% url 'para:project_update' project.pk %}" role="button">Редактировать</a>
+  <a class="btn btn-info" href="{% url 'para:project_delete' project.pk %}" role="button">Удалить</a>
+  {% endif %}
+</li>
+<br>
+{% empty %}
+    <p>Нет проектов для отображения.</p>
+
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

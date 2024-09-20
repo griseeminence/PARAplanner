@@ -4,15 +4,15 @@
 
 {% block content %}
 
- <div><h1>{% if object %}Обновить задачу{% else %}Создать задачу{% endif %}</h1></div>
+ <div><h1>{% if object %}Обновить Область{% else %}Создать Область{% endif %}</h1></div>
   <div>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
-  <button type="submit">{% if object %}Обновить задачу{% else %}Создать задачу{% endif %}</button>
+  <button type="submit">{% if object %}Обновить Область{% else %}Создать Область{% endif %}</button>
   </form>
-  <a href="{% url 'para:area_list' %}">Назад к списку задач</a>
+  <a href="{% url 'para:area_list' %}">Назад к списку Областей</a>
   </div>
 
 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+ <div><h1>{% if object %}Обновить Ресурс{% else %}Создать Ресурс{% endif %}</h1></div>
+  <div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+  <button type="submit">{% if object %}Обновить Ресурс{% else %}Создать Ресурс{% endif %}</button>
+  </form>
+  <a href="{% url 'para:resource_list' %}">Назад к списку Ресурсов</a>
+  </div>
+
+
+{% endblock %}
