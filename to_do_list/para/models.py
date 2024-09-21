@@ -27,7 +27,7 @@ PRIORITY_CHOICES = [
 
 
 class BaseParaModel(models.Model):
-    title = models.CharField(max_length=25, verbose_name='Область')
+    title = models.CharField(max_length=25, verbose_name='Заголовок')
     description = models.TextField(max_length=1000, verbose_name='Описание')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Добавлено')
     is_archived = models.BooleanField(default=False, verbose_name='Архив')
@@ -72,7 +72,8 @@ class Project(BaseParaModel):
 class Resource(BaseParaModel):
     area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='resources', null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='resources', null=True, blank=True)
-    resource_type = models.ForeignKey('ResourceType', on_delete=models.CASCADE, verbose_name='Тип ресурса')
+    resource_type = models.ForeignKey('ResourceType', on_delete=models.CASCADE, verbose_name='Тип ресурса', null=True,
+                                      blank=True)
 
     class Meta:
         verbose_name = 'Ресурс'

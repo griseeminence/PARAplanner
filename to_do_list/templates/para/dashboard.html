@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+<h1>Dashboard</h1>
+
+<h2><a href="{% url 'para:project_list' %}">Последние Проекты</a></h2>
+<ul>
+  {% for project in latest_projects %}
+    <a href="{% url 'para:project_detail' project.id %}">{{ project.title }}</a> ({{ project.created }})
+  {% endfor %}
+</ul>
+
+<h2><a href="{% url 'para:area_list' %}">Последние Области</a></h2>
+<ul>
+  {% for area in latest_areas %}
+    <a href="{% url 'para:area_detail' area.id %}">{{ area.title }}</a> ({{ area.created }})
+  {% endfor %}
+</ul>
+
+<h2><a href="{% url 'para:resource_list' %}">Последние ресурсы</a></h2>
+<ul>
+  {% for resource in latest_resources %}
+    <a href="{% url 'para:resource_detail' resource.id %}">{{ resource.title }}</a> ({{ resource.created }})
+  {% endfor %}
+</ul>
+
+<h2><a href="{% url 'tasks:list' %}">Последние задачи</a></h2>
+<ul>
+  {% for task in latest_tasks %}
+    <a href="{% url 'tasks:detail' task.id %}">{{ task.title }}</a> ({{ task.created }})<br>
+  {% endfor %}
+</ul>
+
+<h2>Последние заметки</h2>
+<ul>
+  {% for note in latest_notes %}
+    <li>{{ note.title }} ({{ note.created }})</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}

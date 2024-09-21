@@ -30,6 +30,7 @@ class Task(models.Model):
     status = models.IntegerField('Статус', choices=STATUS_CHOICES, default=0)
     due_date = models.DateField('Дата выполнения', blank=True, null=True)
     priority = models.BooleanField('Приоритет', default=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Добавлено', blank=True, null=True)
     author = models.ForeignKey(User, verbose_name='Автор записи', blank=True, on_delete=models.CASCADE, related_name='tasks')
     tags = models.ManyToManyField(Tag, blank=True, related_name='tag_tasks')
 

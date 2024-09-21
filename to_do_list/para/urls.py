@@ -20,4 +20,5 @@ urlpatterns = [
     path('resource/detail/<int:pk>/', ResourceDetailView.as_view(), name='resource_detail'),
     path('resource/update/<int:pk>/', ResourceUpdateView.as_view(), name='resource_update'),
     path('resource/delete/<int:pk>/', ResourceDeleteView.as_view(), name='resource_delete'),
+    path('dashboard/', DashBoardView.as_view(), name='dashboard'),
 ]

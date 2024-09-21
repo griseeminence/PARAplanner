@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
 from para.forms import AreaForm, ProjectForm, ResourceForm
 from para.models import Area, Project, Resource, ResourceType
+from tasks.models import Task
 
 # AREAS
 # AREAS
@@ -56,8 +57,6 @@ class AreaDeleteView(DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
 
-
-
 # PROJECTS
 # PROJECTS
 # PROJECTS
@@ -102,8 +101,9 @@ class ProjectDeleteView(DeleteView):
     success_url = reverse_lazy('para:project_list')
 
     def dispatch(self, request, *args, **kwargs):
-        get_object_or_404(Area, pk=kwargs['pk'], author=request.user)
+        get_object_or_404(Project, pk=kwargs['pk'], author=request.user)
         return super().dispatch(request, *args, **kwargs)
+
 
 # RESOURCES
 # RESOURCES
@@ -151,5 +151,30 @@ class ResourceDeleteView(DeleteView):
     success_url = reverse_lazy('para:resource_list')
 
     def dispatch(self, request, *args, **kwargs):
-        get_object_or_404(Area, pk=kwargs['pk'], author=request.user)
+        get_object_or_404(Resource, pk=kwargs['pk'], author=request.user)
         return super().dispatch(request, *args, **kwargs)
+
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+# DASHBOARD
+
+class DashBoardView(TemplateView):
+    template_name = 'para/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Получаем последние 5 элементов каждой модели
+        context['latest_projects'] = Project.objects.order_by('-created')[:5]
+        context['latest_areas'] = Area.objects.order_by('-created')[:5]
+        context['latest_resources'] = Resource.objects.order_by('-created')[:5]
+        context['latest_tasks'] = Task.objects.order_by('-created')[:5]
+        # context['latest_notes'] = Note.objects.order_by('-created')[:5]
+
+        return context
+
