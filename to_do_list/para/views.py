@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
+
+from notes.models import Note
 from para.forms import AreaForm, ProjectForm, ResourceForm
 from para.models import Area, Project, Resource, ResourceType
 from tasks.models import Task
@@ -174,7 +176,7 @@ class DashBoardView(TemplateView):
         context['latest_areas'] = Area.objects.order_by('-created')[:5]
         context['latest_resources'] = Resource.objects.order_by('-created')[:5]
         context['latest_tasks'] = Task.objects.order_by('-created')[:5]
-        # context['latest_notes'] = Note.objects.order_by('-created')[:5]
+        context['latest_notes'] = Note.objects.order_by('-created')[:5]
 
         return context
 

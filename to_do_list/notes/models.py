@@ -13,6 +13,7 @@ class Note(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='notes')
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=True, blank=True, related_name='notes')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    is_archived = models.BooleanField(default=False, verbose_name='Архив')
 
     class Meta:
         verbose_name = 'Заметка'

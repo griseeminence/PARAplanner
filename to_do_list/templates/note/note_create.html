@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+ <div><h1>{% if object %}Обновить заметку{% else %}Создать заметку{% endif %}</h1></div>
+  <div>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+  <button type="submit">{% if object %}Обновить заметку{% else %}Создать заметку{% endif %}</button>
+  </form>
+  <a href="{% url 'notes:note_list' %}">Назад к списку заметок</a>
+  </div>
+
+
+{% endblock %}

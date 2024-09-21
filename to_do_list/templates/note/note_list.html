@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+
+
+
+<h1>Список всех Заметок:</h1>
+<div>
+    <div>
+        <a href="{% url 'notes:note_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новую Заметку</a>
+    </div>
+    <br>
+
+{% for note in object_list %}
+
+<li style="text-align: left;">
+  <a class="grid" href="{% url 'notes:note_detail' note.pk %}" role="button">{{ note.title }}</a>
+  <br>
+  Дата выполнения: {{ note.description }}<br>
+  Автор: {{ note.author }}<br>
+  {% if note.author == user %}
+  <a class="btn btn-info" href="{% url 'notes:note_update' note.pk %}" role="button">Редактировать</a>
+  <a class="btn btn-info" href="{% url 'notes:note_delete' note.pk %}" role="button">Удалить</a>
+  {% endif %}
+</li>
+<br>
+{% empty %}
+    <p>Нет заметок для отображения.</p>
+
+{% endfor %}
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}
