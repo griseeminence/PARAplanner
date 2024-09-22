@@ -1,0 +1,201 @@
+{% extends "base_mdb.html" %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div class="container">
+      <!--Section: Content DESCRIPTION-->
+      <section>
+        <div class="row">
+          <div class="col-md-6 gx-5 mb-4">
+            <div class="bg-image hover-overlay shadow-2-strong" data-mdb-ripple-init data-mdb-ripple-color="light">
+              <img src="https://mdbootstrap.com/img/new/slides/031.jpg" class="img-fluid" />
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 gx-5 mb-4">
+            <h4><strong>Описание проекта:</strong></h4>
+            <p class="text-muted">
+              Этот To-Do-List сайт создан для эффективного управления жизненными задачами и проектами,
+              используя методологии PARA (Projects, Areas, Resources, Archive) и Second Brain.
+              Он помогает структурировать все аспекты повседневной жизни, разделяя задачи на проекты,
+              области, ресурсы и архив. Проект направлен на улучшение личной продуктивности, организацию
+              знаний и управление целями.
+              Этот инструмент идеально подходит для тех, кто хочет организовать свою жизнь более эффективно
+              и создать устойчивую систему управления информацией.
+            </p>
+
+            <p><strong>Преимущества:</strong></p>
+              <ul class="text-muted">
+                <li><strong>Упрощенная организация</strong>: Система PARA позволяет легко разделять задачи и проекты, сохраняя фокус на важных областях.</li>
+                <li><strong>Второй мозг</strong>: Интеграция с концепцией Second Brain помогает сохранять информацию и возвращаться к ней в нужный момент, улучшая принятие решений и долгосрочную продуктивность.</li>
+                <li><strong>Гибкость</strong>: Сайт поддерживает как краткосрочные задачи, так и долгосрочные цели, объединяя их в единую систему.</li>
+                <li><strong>Архивирование</strong>: Быстрая архивация завершенных проектов и задач, что позволяет сосредоточиться на текущих делах.</li>
+                <li><strong>Простота использования</strong>: Интуитивно понятный интерфейс с возможностью легко переключаться между различными уровнями организации.</li>
+              </ul>
+
+          </div>
+        </div>
+      </section>
+      <!--Section: Content DESCRIPTION-->
+
+      <hr class="my-5" />
+
+      <!--Section: Content PRICING-->
+      <section class="text-center">
+        <h4 class="mb-5"><strong>Facilis consequatur eligendi</strong></h4>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Бесплатная версия</h5>
+                <ul class="text-muted">
+                  <li><strong>Вам доступен весь основной функционал</strong></li>
+                  <li><strong>Загружаемые файлы ограничен 5 мб</strong></li>
+                  <li><strong>Архив ваших PARA элементов хранится до 30 дней</strong></li>
+                  <li><strong>Облачное хранилище до 500 мб на аккаунт</strong></li>
+                  <li><strong>Возможность создать не более 5 сущностей в системе PARA</strong></li>
+                </ul>
+                <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Button</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Базовая подписка</h5>
+                <ul class="text-muted">
+                  <li><strong>Вам доступен весь основной функционал</strong></li>
+                  <li><strong>Размер загружаемых файлов ограничен 100 мб </strong></li>
+                  <li><strong>Архив ваших PARA элементов хранится до одного года</strong></li>
+                  <li><strong>Облачное хранилище до 15 гб на аккаунт</strong></li>
+                  <li><strong>Возможность создать неограниченное количество сущностей в системе PARA</strong></li>
+                </ul>
+                <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Button</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+              <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" class="img-fluid" />
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Премиум подписка</h5>
+                <ul class="text-muted">
+                  <li><strong>Вам доступен весь основной функционал</strong></li>
+                  <li><strong>Размер загружаемых файлов ограничен 1 гб </strong></li>
+                  <li><strong>Архив ваших PARA элементов хранится неограниченное количество времени</strong></li>
+                  <li><strong>Облачное хранилище до 100 гб на аккаунт</strong></li>
+                  <li><strong>Возможность создать неограниченное количество сущностей в системе PARA</strong></li>
+                  <li><strong>Исключительная поддержка от нашей команды 24/7</strong></li>
+                  <li><strong>Доступ к аккаунту для всей семьи с раздельными рабочими пространствами</strong></li>
+                  <li><strong>Бесплатный VPN-сервис от наших партнёров. Обеспечь себе доступ из любой страны!</strong></li>
+                </ul>
+                <a href="#!" class="btn btn-primary" data-mdb-ripple-init>Button</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content PRICING-->
+
+      <hr class="my-5" />
+
+      <!--Section: Content REGISTRATION-->
+      <section class="mb-5">
+        <h4 class="mb-5 text-center"><strong>Присоединяйся уже сегодня и переложи рутину на плечи PARAplanner!</strong></h4>
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-6">
+            <form>
+              <!-- 2 column grid layout with text inputs for the first and last names -->
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-outline" data-mdb-input-init>
+                    <input type="text" id="form3Example1" class="form-control" />
+                    <label class="form-label" for="form3Example1">First name</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline" data-mdb-input-init>
+                    <input type="text" id="form3Example2" class="form-control" />
+                    <label class="form-label" for="form3Example2">Last name</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline mb-4" data-mdb-input-init>
+                <input type="email" id="form3Example3" class="form-control" />
+                <label class="form-label" for="form3Example3">Email address</label>
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline mb-4" data-mdb-input-init>
+                <input type="password" id="form3Example4" class="form-control" />
+                <label class="form-label" for="form3Example4">Password</label>
+              </div>
+
+              <!-- Checkbox -->
+              <div class="form-check d-flex justify-content-center mb-4">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" checked />
+                <label class="form-check-label" for="form2Example3">
+                  Subscribe to our newsletter
+                </label>
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4" data-mdb-ripple-init>
+                Sign up
+              </button>
+
+              <!-- Register buttons -->
+              <div class="text-center">
+                <p>or sign up with:</p>
+                <button type="button" class="btn btn-primary btn-floating mx-1" data-mdb-ripple-init>
+                  <i class="fab fa-facebook-f"></i>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-floating mx-1" data-mdb-ripple-init>
+                  <i class="fab fa-google"></i>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-floating mx-1" data-mdb-ripple-init>
+                  <i class="fab fa-twitter"></i>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-floating mx-1" data-mdb-ripple-init>
+                  <i class="fab fa-github"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!--Section: Content REGISTRATION-->
+    </div>
+
+{% endblock %}

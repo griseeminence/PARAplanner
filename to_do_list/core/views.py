@@ -3,4 +3,4 @@ from django.views.generic import TemplateView
 
 
 class HomePage(TemplateView):
-    template_name = 'tasks/index.html'
+    template_name = 'index_mdb.html'
