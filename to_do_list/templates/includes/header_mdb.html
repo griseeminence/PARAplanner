@@ -1,7 +1,9 @@
+{% load static %}
+
   <header>
     <style>
       #intro {
-        background-image: url("https://mdbootstrap.com/img/new/fluid/city/018.jpg");
+        background-image: url("{% static 'img/bg4.jpg' %}");
         height: 100vh;
       }
 
@@ -77,11 +79,11 @@
         <div class="container d-flex align-items-center justify-content-center text-center h-100">
           <div class="text-white" data-mdb-theme="dark">
             <h1 class="mb-3">PARAplanner</h1>
-            <h5 class="mb-4">Система, призванная сделать вашу жизнь проще и эффективнее. Хватит держать все мысли лишь в голове!</h5>
+            <h5 class="mb-4">Система, которая изменит вашу жизнь...</h5>
             <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://www.youtube.com/watch?v=c9B4TPnak1A" role="button"
               rel="nofollow" target="_blank">Присоединяйся!</a>
-            <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="https://mdbootstrap.com/docs/standard/" target="_blank"
-              role="button">Подробнее о сервисе</a>
+            <a class="btn btn-outline-light btn-lg m-2" data-mdb-ripple-init href="{% url 'para:dashboard' %}" target="_blank"
+              role="button">Мой PP</a>
           </div>
         </div>
       </div>
