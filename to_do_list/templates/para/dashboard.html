@@ -27,17 +27,16 @@
               more</a>
             <hr class="my-3"/>
 
-            <ul>
-              {% for project in latest_projects %}
-                <div class="card rounded-6 h-100">
-                  <a href="{% url 'para:project_detail' project.id %}">
-                    {{ project.title }}<p class="text-muted"><small>Deadline: <u>{{ project.deadline }}</u>;
-                    Area: {{ project.area.title }}</small></p>
-                  </a>
-                </div>
-                <br>
-              {% endfor %}
-            </ul>
+            {% for project in latest_projects %}
+              <div class="card rounded-6 mb-3">
+                <a href="{% url 'para:project_detail' project.id %}">
+                  {{ project.title }}
+                  <p class="text-muted">
+                    <small>Deadline: <u>{{ project.deadline }}</u>; Area: {{ project.area.title }}</small>
+                  </p>
+                </a>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -59,17 +58,17 @@
               more</a>
             <hr class="my-3"/>
 
-            <ul>
               {% for area in latest_areas %}
-                <div class="card rounded-6 h-100">
+                <div class="card rounded-6 mb-3">
                   <a href="{% url 'para:area_detail' area.id %}">
-                    {{ area.title }}<p class="text-muted"><small>Deadline: <u>{{ area.deadline }}</u>;
-                    Area: {{ area.project.title }}</small></p>
+                    {{ area.title }}
+                    <p class="text-muted">
+                      <small>Deadline: <u>{{ area.deadline }}</u>; Area: {{ area.project.title }}</small>
+                    </p>
                   </a>
                 </div>
                 <br>
               {% endfor %}
-            </ul>
           </div>
         </div>
       </div>
@@ -92,91 +91,99 @@
               more</a>
             <hr class="my-3"/>
 
-            <ul>
               {% for resource in latest_resources %}
-                <div class="card rounded-6 h-100">
+                <div class="card rounded-6 mb-3">
                   <a href="{% url 'para:resource_detail' resource.id %}">
-                    {{ resource.title }}<p class="text-muted"><small>Deadline: <u>{{ resource.deadline }}</u>;
-                    Area: {{ resource.area.title }}; Project: {{ resource.project.title }}</small></p>
+                    {{ resource.title }}
+                    <p class="text-muted">
+                      <small>Deadline: <u>{{ resource.deadline }}</u>; Area: {{ resource.area.title }}; Project: {{ resource.project.title }}</small>
+                    </p>
                   </a>
                 </div>
                 <br>
               {% endfor %}
-            </ul>
           </div>
         </div>
       </div>
       <!-- Third column RESOURCES -->
 
-    <!-- First row PARA -->
+      <!-- First row PARA -->
 
       <hr class="my-5"/>
 
-    <!-- Second row TOOLS -->
+      <!-- Second row TOOLS -->
 
 
-      <!-- First column TASKS -->
-          <div class="col-lg-4 col-md-12 mb-6 mb-lg-0">
-        <div class="card rounded-6 h-100">
-          <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/new/textures/small/148.jpg" class="img-fluid"/>
-            <a href="#!">
-              <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-            </a>
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+
+          <!-- First column TASKS -->
+          <div class="col-lg-4 col-md-6 mb-6 mb-lg-0">
+            <div class="card rounded-6 h-100">
+              <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/textures/small/148.jpg" class="img-fluid"/>
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+
+              <div class="card-body">
+                <h2 class="card-title">Последние Задачи</h2>
+                <a href="{% url 'tasks:list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
+                  more</a>
+                <hr class="my-3"/>
+
+                  {% for task in latest_tasks %}
+                    <div class="card rounded-6 mb-3">
+                      <a href="{% url 'tasks:detail' task.id %}">
+                        {{ task.title }}
+                        <p class="text-muted">
+                          <small>Deadline: <u>{{ task.due_date }}</u>; Area: {{ task.area.title }}; Project: {{ task.project.title }}</small>
+                        </p>
+                      </a>
+                    </div>
+                    <br>
+                  {% endfor %}
+              </div>
+            </div>
           </div>
+          <!-- First column TASKS -->
 
-          <div class="card-body">
-            <h2 class="card-title">Последние Задачи</h2>
-            <a href="{% url 'tasks:list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
-              more</a>
-            <hr class="my-3"/>
+          <!-- Second column NOTES -->
+          <div class="col-lg-4 col-md-6 mb-6 mb-lg-0">
+            <div class="card rounded-6 h-100">
+              <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="https://mdbootstrap.com/img/new/textures/small/148.jpg" class="img-fluid"/>
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
 
-            <ul>
-              {% for task in latest_tasks %}
-                <div class="card rounded-6 h-100">
-                  <a href="{% url 'tasks:detail' task.id %}">
-                    {{ task.title }}<p class="text-muted"><small>Deadline: <u>{{ task.due_date }}</u>;
-                    Area: {{ task.area.title }}; Project: {{ task.project.title }}</small></p>
-                  </a>
-                </div>
-                <br>
-              {% endfor %}
-            </ul>
+              <div class="card-body">
+                <h2 class="card-title">Последние Заметки</h2>
+                <a href="{% url 'notes:note_list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
+                  more</a>
+                <hr class="my-3"/>
+
+                  {% for note in latest_notes %}
+                    <div class="card rounded-6 mb-3">
+                      <a href="{% url 'notes:note_detail' note.id %}">
+                        {{ note.title }}
+                        <p class="text-muted">
+                          <small>Created: <u>({{ note.created }})</u>; Area: {{ note.area.title }}; Project: {{ note.project.title }}</small>
+                        </p>
+                      </a>
+                    </div>
+                    <br>
+                  {% endfor %}
+              </div>
+            </div>
           </div>
+          <!-- Second column NOTES -->
+
         </div>
       </div>
-      <!-- First column TASKS -->
 
-      <!-- Second column NOTES -->
-              <div class="col-lg-4 col-md-12 mb-6 mb-lg-0">
-        <div class="card rounded-6 h-100">
-          <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/new/textures/small/148.jpg" class="img-fluid"/>
-            <a href="#!">
-              <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-            </a>
-          </div>
-
-          <div class="card-body">
-            <h2 class="card-title">Последние Заметки</h2>
-            <a href="{% url 'notes:note_list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
-              more</a>
-            <hr class="my-3"/>
-
-            <ul>
-              {% for note in latest_notes %}
-                <div class="card rounded-6 h-100">
-                  <a href="{% url 'notes:note_detail' note.id %}">
-                    {{ note.title }}<p class="text-muted"><small>Deadline: <u>({{ note.created }})</u>;
-                    Area: {{ note.area.title }}; Project: {{ note.project.title }}</small></p>
-                  </a>
-                </div>
-                <br>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
 
       <!-- Second column NOTES -->
 
