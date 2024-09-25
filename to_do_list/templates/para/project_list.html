@@ -4,40 +4,55 @@
 
 {% block content %}
 
+  <div class="container">
 
+    <section class="text-center mb-10">
 
+      <h3 class="fw-bold mb-3 text-center">Список всех Проектов</h3>
+      <a href="{% url 'para:project_create' %}" class="btn btn-secondary btn-rounded mb-5" data-mdb-ripple-init>Создать
+        проект</a>
 
-<h1>Список всех Проектов:</h1>
-<div>
-    <div>
-        <a href="{% url 'para:project_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новый проект</a>
-    </div>
-    <br>
+      <div class="row gx-lg-5">
 
-{% for project in object_list %}
+        <!-- Column -->
+        {% for project in object_list %}
+          <div class="col-lg-4 col-md-12 mb-7">
 
-<li style="text-align: left;">
-  <a class="grid" href="{% url 'para:project_detail' project.pk %}" role="button">{{ project.title }}</a>
-  <br>
-  Дата выполнения: {{ project.description }}<br>
-  Автор: {{ project.author }}<br>
-  {% if project.author == user %}
-  <a class="btn btn-info" href="{% url 'para:project_update' project.pk %}" role="button">Редактировать</a>
-  <a class="btn btn-info" href="{% url 'para:project_delete' project.pk %}" role="button">Удалить</a>
-  {% endif %}
-</li>
-<br>
-{% empty %}
-    <p>Нет проектов для отображения.</p>
+            <div class="card rounded-6 h-100">
+              <div class="bg-image hover-overlay ripple mx-3 shadow-4-strong rounded-6 mt-n3"
+                   data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="{% static 'img/project_card.png' %}" class="w-100">
 
-{% endfor %}
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
 
-</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ project.title }}</h5>
+                <a href="{% url 'para:project_detail' project.pk %}" class="btn btn-secondary btn-rounded"
+                   data-mdb-ripple-init>Подробнее</a>
+                <hr class="my-3"/>
+                <p class="text-muted">
+                  <small>Deadline: <u>{{ project.deadline }}</u>; Area: {{ project.area.title }}</small>
+                  {{ project.description }}
+                </p>
+                {% if project.author == user %}
+                  <a href="{% url 'para:project_update' project.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Редактировать</a>
+                  <a href="{% url 'para:project_delete' project.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Удалить</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
 
-
-
-
-
-
-
+          <!-- Column -->
+        {% empty %}
+          <p>Нет проектов для отображения.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
 {% endblock %}
+
