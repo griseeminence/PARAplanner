@@ -7,7 +7,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
     <div class="container-fluid">
       <!-- Navbar brand -->
-      <a class="navbar-brand nav-link" target="_blank" href="https://mdbootstrap.com/docs/standard/">
+      <a class="navbar-brand nav-link" target="_blank" href="{% url 'core:homepage' %}">
         <strong>PARAplanner</strong>
       </a>
       <button class="navbar-toggler" type="button" data-mdb-collapse-init data-mdb-target="#navbarExample01"
@@ -17,7 +17,7 @@
       <div class="collapse navbar-collapse" id="navbarExample01">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item active">
-            <a class="nav-link" aria-current="page" href="#intro">Аккаунт</a>
+            <a class="nav-link" aria-current="page" href="{% url 'para:dashboard' %}">Аккаунт</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow"
