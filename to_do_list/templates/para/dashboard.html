@@ -129,16 +129,16 @@
 
               <div class="card-body">
                 <h2 class="card-title">Последние Задачи</h2>
-                <a href="{% url 'tasks:list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
+                <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>Read
                   more</a>
                 <hr class="my-3"/>
 
                   {% for task in latest_tasks %}
                     <div class="card rounded-6 mb-3">
-                      <a href="{% url 'tasks:detail' task.id %}">
+                      <a href="{% url 'tasks:task_detail' task.id %}">
                         {{ task.title }}
                         <p class="text-muted">
-                          <small>Deadline: <u>{{ task.due_date }}</u>; Area: {{ task.area.title }}; Project: {{ task.project.title }}</small>
+                          <small>Deadline: <u>{{ task.deadline }}</u>; Area: {{ task.area.title }}; Project: {{ task.project.title }}</small>
                         </p>
                       </a>
                     </div>

@@ -5,62 +5,107 @@
 
 {% block content %}
 
-  <div class="container">
-    <section class="text-center mb-10">
-
-
-      <div class="row gx-lg-5 mb-3 justify-content-center">
-
-        <div class="col-lg-10 mb-5 mb-lg-0">
-
-          <div style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;"
-               class="card rounded-7 mb-3 me-lg-n5 p-lg-5">
-            <h2 class="fw-bold">
-              <span class="text-light">{{ object.title }}</span>
-            </h2>
-            <p class="fst-italic"><em>Deadline: {{ project.deadline }}; Area: {{ project.area.title }}</em></p>
-            <hr class="my-3"/>
-            <div class="card-body p-lg-5">
-
-              <p class="text-muted mb-4">
-                {{ object.description }}
-              </p>
-              <p class="text-muted">
-                !!!-Здесь будут комментарии-!!!
-              </p>
-            </div>
-            <hr class="my-3"/>
-            <div class="d-flex justify-content-center"> <!-- Центрируем кнопки -->
-              <a href="{% url 'para:project_list' %}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
-                проектов</a>
-            </div>
-            <div class="d-flex justify-content-center"> <!-- Центрируем кнопки -->
-              <a href="{% url 'para:project_update' object.pk %}" class="btn btn-warning btn-rounded mb-2 me-1"
-                 data-mdb-ripple-init>
-                <i class="bi bi-pencil"></i> <!-- Иконка "редактировать" -->
-              </a>
-              <a href="{% url 'para:project_delete' object.pk %}" class="btn btn-danger btn-rounded mb-2"
-                 data-mdb-ripple-init>
-                <i class="bi bi-trash"></i> <!-- Иконка "удалить" -->
-              </a>
-            </div>
-
+  <div class="container-fluid">
+    <div class="row h-100">
+      <!-- Блок с проектом -->
+      <div class="col-lg-8 full-height">
+        <div style="min-height: 1200px; background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;"
+             class="card rounded-7 mb-3 p-lg-5">
+          <h2 class="fw-bold text-center">
+            <span class="text-light">{{ object.title }}</span>
+          </h2>
+          <p class="text-center fst-italic"><em>Deadline: {{ project.deadline }}; Area: {{ project.area.title }}</em>
+          </p>
+          <hr class="my-3"/>
+          <div class="card-body">
+            <p class="text-muted mb-4">
+              {{ object.description }}
+            </p>
 
           </div>
+          <p class="text-muted text-center">
+            !!!-Здесь будут комментарии-!!!
+          </p>
+          <hr class="my-3"/>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'para:project_list' %}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
+              проектов</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'para:project_update' object.pk %}" class="btn btn-warning btn-rounded mb-2 me-1"
+               data-mdb-ripple-init>
+              <i class="bi bi-pencil"></i>
+            </a>
+            <a href="{% url 'para:project_delete' object.pk %}" class="btn btn-danger btn-rounded mb-2"
+               data-mdb-ripple-init>
+              <i class="bi bi-trash"></i>
+            </a>
+          </div>
+        </div>
+      </div>
 
+      <!-- Блок с заметками и задачами -->
+      <div class="col-lg-4 d-flex flex-column">
+        <div class="card rounded-7 p-lg-5 half-height mb-2 "
+             style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;">
+          <h2 class="text-center fw-bold">
+            <span class="text-light">Заметки проекта «{{ object.title }}»</span>
+          </h2>
+          <hr class="my-3"/>
+          <div class="card-body p-lg-5">
+            {% for note in project_notes|slice:"3" %}
+              <div class="card rounded-6 mb-3 text-center">
+                <a href="{% url 'notes:note_detail' note.id %}">
+                  <p class="text-muted mt-3">
+                    {{ note.title }}
+                  </p>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'notes:note_create' %}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
+              заметок</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'notes:note_list' %}" class="btn btn-secondary btn-rounded"
+               data-mdb-ripple-init>
+              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+            </a>
+          </div>
+        </div>
 
+        <div class="card rounded-7 p-lg-5 half-height mb-2 "
+             style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;">
+          <h2 class="text-center fw-bold">
+            <span class="text-light">Задачи проекта «{{ object.title }}»</span>
+          </h2>
+          <hr class="my-3"/>
+          <div class="card-body p-lg-5">
+            {% for task in project_tasks|slice:":3" %}
+              <div class="card rounded-6 mb-3 text-center">
+                <a href="{% url 'tasks:task_detail' task.id %}">
+                  <p class="text-muted mt-3">
+                    {{ task.title }}
+                  </p>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'tasks:task_list' %}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
+              задач</a>
+          </div>
+          <div class="d-flex justify-content-center">
+            <a href="{% url 'tasks:task_create' %}" class="btn btn-secondary btn-rounded"
+               data-mdb-ripple-init>
+              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+            </a>
+          </div>
         </div>
 
       </div>
-
-
-    </section>
+    </div>
   </div>
-
-
-
-
-
-
 
 {% endblock %}

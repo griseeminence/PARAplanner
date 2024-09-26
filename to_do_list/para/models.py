@@ -3,8 +3,6 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-from tasks.models import Task
-
 User = get_user_model()
 
 # TODO: Добавить модель архива. Придумать, как взаимодействовать

@@ -78,6 +78,14 @@ class ProjectDetailView(DetailView):
     template_name = 'para/project_detail.html'
     model = Project
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.object
+        context['project_notes'] = project.notes.order_by('-created')
+        context['project_tasks'] = project.tasks.order_by('-created')
+
+        return context
+
 
 class ProjectCreateView(CreateView):
     template_name = 'para/project_create.html'

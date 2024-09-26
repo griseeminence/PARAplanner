@@ -18,7 +18,7 @@
 <li style="text-align: left;">
   <a class="grid" href="{% url 'tasks:detail' task.pk %}" role="button">{{ task.title }}</a>
   <br>
-  Дата выполнения: {{ task.due_date }}<br>
+  Дата выполнения: {{ task.deadline }}<br>
   Автор: {{ task.author }}<br>
   {% if task.author == user %}
   <a class="btn btn-info" href="{% url 'tasks:update' task.pk %}" role="button">Редактировать</a>
