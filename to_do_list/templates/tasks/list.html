@@ -9,20 +9,20 @@
 <div>
 
     <div>
-        <a href="{% url 'tasks:create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать задачу</a>
+        <a href="{% url 'tasks:task_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать задачу</a>
     </div>
     <br>
 
 {% for task in object_list %}
 
 <li style="text-align: left;">
-  <a class="grid" href="{% url 'tasks:detail' task.pk %}" role="button">{{ task.title }}</a>
+  <a class="grid" href="{% url 'tasks:task_detail' task.pk %}" role="button">{{ task.title }}</a>
   <br>
   Дата выполнения: {{ task.deadline }}<br>
   Автор: {{ task.author }}<br>
   {% if task.author == user %}
-  <a class="btn btn-info" href="{% url 'tasks:update' task.pk %}" role="button">Редактировать</a>
-  <a class="btn btn-info" href="{% url 'tasks:delete' task.pk %}" role="button">Удалить</a>
+  <a class="btn btn-info" href="{% url 'tasks:task_update' task.pk %}" role="button">Редактировать</a>
+  <a class="btn btn-info" href="{% url 'tasks:task_delete' task.pk %}" role="button">Удалить</a>
   {% endif %}
 </li>
 <br>

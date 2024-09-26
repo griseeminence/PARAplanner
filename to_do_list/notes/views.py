@@ -14,6 +14,13 @@ class NoteListView(ListView):
     ordering = '-id'
     paginate_by = 4
 
+    def get_queryset(self):
+        # Проверяем, есть ли project_id в URL
+        project_id = self.request.GET.get('project_id')  # Используем GET-параметр
+        if project_id:
+            return Note.objects.filter(project_id=project_id)
+        return Note.objects.all()
+
 
 class NoteDetailView(DetailView):
     template_name = 'note/note_detail.html'
