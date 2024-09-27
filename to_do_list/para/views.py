@@ -140,6 +140,22 @@ class ResourceListView(ListView):
     model = Resource
     ordering = '-id'
     paginate_by = 4
+    # меняем сам queryset выводимый в object_list
+    # оба способа рабочие - но в этом случае просто добавим контекст, сохранив основной queryset
+    # def get_queryset(self):
+    #     return Resource.objects.prefetch_related('area', 'project')
+
+
+    def get_context_data(self, **kwargs):
+        # Получаем базовый контекст
+        context = super().get_context_data(**kwargs)
+        # Добавляем в контекст предзагруженные области с проектами
+        # Можно обойтись и без использования prefetch_related - код внутри html не изменится
+        # Используем prefetch_related для оптимизации и сокращения запросов к БД.
+        # То есть в общем цикле мы просто используем вместо objects_list - areas_project
+        context['resources_project_areas'] = Resource.objects.prefetch_related('area', 'project')
+        return context
+
 
 
 class ResourceDetailView(DetailView):

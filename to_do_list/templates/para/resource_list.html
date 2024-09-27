@@ -2,42 +2,71 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
+
+
 {% block content %}
 
+  <div class="container">
 
+    <section class="text-center mb-10">
 
+      <h3 class="fw-bold mb-3 text-center">Список всех Ресурсов</h3>
+      <a href="{% url 'para:resource_create' %}" class="btn btn-secondary btn-rounded mb-5" data-mdb-ripple-init>Создать
+        Ресурс</a>
 
-<h1>Список всех Ресурсов:</h1>
-<div>
-    <div>
-        <a href="{% url 'para:resource_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новый ресурс</a>
-    </div>
-    <br>
+      <div class="row gx-lg-5">
 
-{% for resource in object_list %}
+        <!-- Column -->
+        {% for resource in resources_project_areas %}
+          <div class="col-lg-4 col-md-12 mb-7">
 
-<li style="text-align: left;">
-  <a class="grid" href="{% url 'para:resource_detail' resource.pk %}" role="button">{{ resource.title }}</a>
-  <br>
-  Дата выполнения: {{ resource.description }}<br>
-  Автор: {{ resource.author }}<br>
-  {% if resource.author == user %}
-  <a class="btn btn-info" href="{% url 'para:resource_update' resource.pk %}" role="button">Редактировать</a>
-  <a class="btn btn-info" href="{% url 'para:resource_delete' resource.pk %}" role="button">Удалить</a>
-  {% endif %}
-</li>
-<br>
-{% empty %}
-    <p>Нет ресурсов для отображения.</p>
+            <div class="card rounded-6 h-100">
+              <div class="bg-image hover-overlay ripple mx-3 shadow-4-strong rounded-6 mt-n3"
+                   data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="{% static 'img/area_card.png' %}" class="w-100">
 
-{% endfor %}
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
 
-</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ resource.title }}</h5>
+                <a href="{% url 'para:resource_detail' resource.pk %}" class="btn btn-secondary btn-rounded"
+                   data-mdb-ripple-init>Подробнее</a>
+                <hr class="my-3"/>
+                <p class="text-muted">
+                  <small>Deadline: <u>{{ resource.deadline }}</u>;
+                    {% if resource.area %}
+                      Область: {{ resource.area.title }}{% if resource.project %}, {% endif %}
+                    {% else %}
+                      Нет области для этого ресурса.
+                    {% endif %}
+                    {% if resource.project %}
+                      Проект: {{ resource.project.title }}{% if resource.project %}, {% endif %}
+                    {% else %}
+                      Нет проекта для этого ресурса.
+                    {% endif %}
+                  </small>
+                <hr class="my-3"/>
+                <p>{{ resource.description|truncatewords:50 }}</p>
+                </p>
+                {% if resource.author == user %}
+                  <a href="{% url 'para:resource_update' resource.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Редактировать</a>
+                  <a href="{% url 'para:resource_delete' resource.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Удалить</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
 
-
-
-
-
-
-
+          <!-- Column -->
+        {% empty %}
+          <p>Нет Ресурсов для отображения.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
 {% endblock %}
+

@@ -35,7 +35,8 @@
                 <hr class="my-3"/>
                 <p class="text-muted">
                   <small>Deadline: <u>{{ project.deadline }}</u>; Area: {{ project.area.title }}</small>
-                  {{ project.description }}
+                  <hr class="my-3"/>
+                  <p>{{ project.description|truncatewords:50 }}</p>
                 </p>
                 {% if project.author == user %}
                   <a href="{% url 'para:project_update' project.pk %}" class="btn btn-secondary btn-rounded"

@@ -3,10 +3,6 @@
 {% load django_bootstrap5 %}
 
 
-
-
-
-
 {% block content %}
 
   <div class="container">
@@ -51,7 +47,7 @@
                     <br>
                   </small>
                 <hr class="my-3"/>
-                {{ area.description }}
+                <p>{{ area.description|truncatewords:50 }}</p>
                 </p>
                 {% if area.author == user %}
                   <a href="{% url 'para:project_update' area.pk %}" class="btn btn-secondary btn-rounded"
