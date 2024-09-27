@@ -2,42 +2,73 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
+
+
+
+
+
 {% block content %}
 
+  <div class="container">
 
+    <section class="text-center mb-10">
 
+      <h3 class="fw-bold mb-3 text-center">Список всех Областей</h3>
+      <a href="{% url 'para:area_create' %}" class="btn btn-secondary btn-rounded mb-5" data-mdb-ripple-init>Создать
+        Область</a>
 
-<h1>Список всех Областей:</h1>
-<div>
-    <div>
-        <a href="{% url 'para:area_create' %}" class="btn btn-lg btn-secondary fw-bold border-white bg-white text-dark">Создать новую область</a>
-    </div>
-    <br>
+      <div class="row gx-lg-5">
 
-{% for area in object_list %}
+        <!-- Column -->
+        {% for area in areas_project %}
+          <div class="col-lg-4 col-md-12 mb-7">
 
-<li style="text-align: left;">
-  <a class="grid" href="{% url 'para:area_detail' area.pk %}" role="button">{{ area.title }}</a>
-  <br>
-  Дата выполнения: {{ area.description }}<br>
-  Автор: {{ area.author }}<br>
-  {% if area.author == user %}
-  <a class="btn btn-info" href="{% url 'para:area_update' area.pk %}" role="button">Редактировать</a>
-  <a class="btn btn-info" href="{% url 'para:area_delete' area.pk %}" role="button">Удалить</a>
-  {% endif %}
-</li>
-<br>
-{% empty %}
-    <p>Нет областей для отображения.</p>
+            <div class="card rounded-6 h-100">
+              <div class="bg-image hover-overlay ripple mx-3 shadow-4-strong rounded-6 mt-n3"
+                   data-mdb-ripple-init data-mdb-ripple-color="light">
+                <img src="{% static 'img/area_card.png' %}" class="w-100">
 
-{% endfor %}
+                <a href="#!">
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
 
-</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ area.title }}</h5>
+                <a href="{% url 'para:area_detail' area.pk %}" class="btn btn-secondary btn-rounded"
+                   data-mdb-ripple-init>Подробнее</a>
+                <hr class="my-3"/>
+                <p class="text-muted">
+                  <small>Deadline: <u>{{ area.deadline }}</u>;
 
+                    {% if area.projects.exists %}
+                      {% for project in area.projects.all %}
+                        {{ project.title }}{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      Нет проектов для этой области.
+                    {% endif %}
+                    <br>
+                  </small>
+                <hr class="my-3"/>
+                {{ area.description }}
+                </p>
+                {% if area.author == user %}
+                  <a href="{% url 'para:project_update' area.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Редактировать</a>
+                  <a href="{% url 'para:project_delete' area.pk %}" class="btn btn-secondary btn-rounded"
+                     data-mdb-ripple-init>Удалить</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
 
-
-
-
-
-
+          <!-- Column -->
+        {% empty %}
+          <p>Нет Областей для отображения.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
 {% endblock %}
+

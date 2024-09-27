@@ -25,6 +25,16 @@ class AreaListView(ListView):
     ordering = '-id'
     paginate_by = 4
 
+    def get_context_data(self, **kwargs):
+        # Получаем базовый контекст
+        context = super().get_context_data(**kwargs)
+        # Добавляем в контекст предзагруженные области с проектами
+        # Можно обойтись и без использования prefetch_related - код внутри html не изменится
+        # Используем prefetch_related для оптимизации и сокращения запросов к БД.
+        # То есть в общем цикле мы просто используем вместо objects_list - areas_project
+        context['areas_project'] = Area.objects.prefetch_related('projects')
+        return context
+
 
 class AreaDetailView(DetailView):
     template_name = 'para/area_detail.html'
