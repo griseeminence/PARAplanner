@@ -52,7 +52,7 @@ class Area(BaseParaModel):
 
 
 class Project(BaseParaModel):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='projects')
+    area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='projects', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Проект'
@@ -68,9 +68,9 @@ class Project(BaseParaModel):
 
 
 class Resource(BaseParaModel):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='resources', null=True, blank=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='resources', null=True, blank=True)
-    resource_type = models.ForeignKey('ResourceType', on_delete=models.CASCADE, verbose_name='Тип ресурса', null=True,
+    area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='resources', null=True, blank=True)
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, related_name='resources', null=True, blank=True)
+    resource_type = models.ForeignKey('ResourceType', on_delete=models.SET_NULL, verbose_name='Тип ресурса', null=True,
                                       blank=True)
 
     class Meta:

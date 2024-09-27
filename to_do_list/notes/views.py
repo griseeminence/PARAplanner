@@ -17,9 +17,17 @@ class NoteListView(ListView):
     def get_queryset(self):
         # Проверяем, есть ли project_id в URL
         project_id = self.request.GET.get('project_id')  # Используем GET-параметр
+        resource_id = self.request.GET.get('resource_id')  # Используем GET-параметр
+        area_id = self.request.GET.get('area_id')  # Используем GET-параметр
         if project_id:
             return Note.objects.filter(project_id=project_id)
-        return Note.objects.all()
+        elif resource_id:
+            return Note.objects.filter(resource_id=resource_id)
+        elif area_id:
+            return Note.objects.filter(area_id=area_id)
+        else:
+            return Note.objects.all()
+
 
 
 class NoteDetailView(DetailView):

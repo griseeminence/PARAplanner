@@ -40,6 +40,14 @@ class AreaDetailView(DetailView):
     template_name = 'para/area_detail.html'
     model = Area
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        area = self.object
+        context['area_notes'] = area.notes.order_by('-created')
+        context['area_tasks'] = area.tasks.order_by('-created')
+
+        return context
+
 
 class AreaCreateView(CreateView):
     template_name = 'para/area_create.html'
@@ -161,6 +169,15 @@ class ResourceListView(ListView):
 class ResourceDetailView(DetailView):
     template_name = 'para/resource_detail.html'
     model = Resource
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        resource = self.object
+        context['resource_notes'] = resource.notes.order_by('-created')
+        context['resource_tasks'] = resource.tasks.order_by('-created')
+
+        return context
+
 
 
 class ResourceCreateView(CreateView):

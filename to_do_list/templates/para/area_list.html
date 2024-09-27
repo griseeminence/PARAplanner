@@ -50,9 +50,9 @@
                 <p>{{ area.description|truncatewords:50 }}</p>
                 </p>
                 {% if area.author == user %}
-                  <a href="{% url 'para:project_update' area.pk %}" class="btn btn-secondary btn-rounded"
+                  <a href="{% url 'para:area_update' area.pk %}" class="btn btn-secondary btn-rounded"
                      data-mdb-ripple-init>Редактировать</a>
-                  <a href="{% url 'para:project_delete' area.pk %}" class="btn btn-secondary btn-rounded"
+                  <a href="{% url 'para:area_delete' area.pk %}" class="btn btn-secondary btn-rounded"
                      data-mdb-ripple-init>Удалить</a>
                 {% endif %}
               </div>
