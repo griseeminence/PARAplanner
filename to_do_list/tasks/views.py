@@ -11,7 +11,7 @@ from comments.forms import CommentForm
 
 
 class TaskListView(ListView):
-    template_name = 'tasks/list.html'
+    template_name = 'tasks/task_list.html'
     model = Task
     ordering = '-id'
     paginate_by = 5
@@ -33,7 +33,7 @@ class TaskListView(ListView):
 
 
 class TaskCreateView(CreateView, LoginRequiredMixin):
-    template_name = 'tasks/create.html'
+    template_name = 'tasks/task_create.html'
     model = Task
     success_url = reverse_lazy('tasks:task_list')
     form_class = TaskForm
@@ -46,7 +46,7 @@ class TaskCreateView(CreateView, LoginRequiredMixin):
 
 
 class TaskUpdateView(UpdateView, LoginRequiredMixin):
-    template_name = 'tasks/create.html'
+    template_name = 'tasks/task_create.html'
     model = Task
     form_class = TaskForm
     success_url = reverse_lazy('tasks:task_list')

@@ -49,7 +49,6 @@
                   </small>
                 <hr class="my-3"/>
                 <p>{{ task.description|truncatewords:50 }}</p>
-                </p>
                 {% if task.author == user %}
                   <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-secondary btn-rounded"
                      data-mdb-ripple-init>Редактировать</a>

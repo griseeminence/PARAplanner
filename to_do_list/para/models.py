@@ -30,7 +30,7 @@ class BaseParaModel(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Добавлено')
     is_archived = models.BooleanField(default=False, verbose_name='Архив')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
-    deadline = models.DateTimeField(null=True, blank=True, verbose_name="Дедлайн")
+    deadline = models.DateField(null=True, blank=True, verbose_name="Дедлайн")
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, verbose_name="Приоритет")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
 
