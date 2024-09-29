@@ -1,19 +1,26 @@
-{% extends "base.html" %}
+{% extends "base_mdb.html" %}
 {% load static %}
 {% load django_bootstrap5 %}
 
 {% block content %}
-
- <div><h1>{% if object %}Обновить задачу{% else %}Создать задачу{% endif %}</h1></div>
-  <div>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-  <button type="submit">{% if object %}Обновить задачу{% else %}Создать задачу{% endif %}</button>
-  </form>
-  <a href="{% url 'tasks:task_list' %}">Назад к списку задач</a>
+  <div class="text-center">
+    <h1>{% if object %}Обновить Задачу{% else %}Создать Задачу{% endif %}</h1>
   </div>
-
-
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-lg-6">
+      <div style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;"
+           class="card rounded-7 mb-3 p-lg-5">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary mx-2">
+              {% if object %}Обновить Задачу{% else %}Создать Задачу{% endif %}
+            </button>
+            <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary mx-2">Назад к списку Задач</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}
