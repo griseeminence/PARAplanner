@@ -1,13 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
 
+from comments.forms import CommentForm
+from comments.models import Comment
 from notes.models import Note
 from para.forms import AreaForm, ProjectForm, ResourceForm
 from para.models import Area, Project, Resource, ResourceType
 from tasks.models import Task
+
 
 # AREAS
 # AREAS
@@ -101,8 +106,77 @@ class ProjectDetailView(DetailView):
         project = self.object
         context['project_notes'] = project.notes.order_by('-created')
         context['project_tasks'] = project.tasks.order_by('-created')
-
+        context['comments'] = project.comments.filter(active=True).order_by('-created')
+        context['comment_form'] = CommentForm()
+        context['editing_comment'] = None
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Получаем объект проекта
+
+        # Обработка добавления нового комментария
+        if 'submit_comment' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.author = request.user
+                comment.content_object = self.object  # используем self.object
+                comment.save()
+                return redirect('para:project_detail', pk=self.object.pk)  # обновляем страницу с комментариями
+
+        # Обработка редактирования комментария
+        elif 'edit_comment' in request.POST:
+            comment_id = request.POST.get('comment_id')
+            comment_text = request.POST.get('text')  # Извлекаем текст комментария из формы
+            try:
+                comment = Comment.objects.get(
+                    id=comment_id,
+                    content_type=ContentType.objects.get_for_model(Project),
+                    object_id=self.object.id
+                )
+                if request.user == comment.author:
+                    comment.text = comment_text  # Обновляем текст комментария
+                    comment.save()  # Сохраняем изменения
+                    return redirect('para:project_detail', pk=self.object.pk)
+            except Comment.DoesNotExist:
+                return self.get(request, *args, **kwargs)
+
+        # Обработка запроса на редактирование комментария
+        elif 'edit' in request.POST:
+            comment_id = request.POST.get('comment_id')
+            try:
+                editing_comment = Comment.objects.get(
+                    id=comment_id,
+                    content_type=ContentType.objects.get_for_model(Project),
+                    object_id=self.object.id  # используем self.object
+                )
+                if request.user == editing_comment.author:
+                    # Создаем экземпляр формы для редактирования комментария
+                    # edit_comment_form = CommentForm(instance=editing_comment)
+                    # Передаем комментарий и форму для редактирования в контекст
+                    context = self.get_context_data(**kwargs)
+                    context['editing_comment'] = editing_comment
+                    context['comment_form'] = CommentForm(initial={'text': editing_comment.text})
+                    return self.render_to_response(context)
+            except Comment.DoesNotExist:
+                return self.get(request, *args, **kwargs)
+
+        # Обработка удаления комментария
+        elif 'delete_comment' in request.POST:
+            comment_id = request.POST.get('comment_id')
+            try:
+                comment = Comment.objects.get(
+                    id=comment_id,
+                    content_type=ContentType.objects.get_for_model(Project),
+                    object_id=self.object.id  # используем self.object
+                )
+                if request.user == comment.author:
+                    comment.delete()
+                    return HttpResponseRedirect(reverse('para:project_detail', kwargs={'pk': self.object.pk}))
+            except Comment.DoesNotExist:
+                return self.get(request, *args, **kwargs)
+
+        return self.get(request, *args, **kwargs)
 
 
 class ProjectCreateView(CreateView):
@@ -148,11 +222,11 @@ class ResourceListView(ListView):
     model = Resource
     ordering = '-id'
     paginate_by = 4
+
     # меняем сам queryset выводимый в object_list
     # оба способа рабочие - но в этом случае просто добавим контекст, сохранив основной queryset
     # def get_queryset(self):
     #     return Resource.objects.prefetch_related('area', 'project')
-
 
     def get_context_data(self, **kwargs):
         # Получаем базовый контекст
@@ -163,7 +237,6 @@ class ResourceListView(ListView):
         # То есть в общем цикле мы просто используем вместо objects_list - areas_project
         context['resources_project_areas'] = Resource.objects.prefetch_related('area', 'project')
         return context
-
 
 
 class ResourceDetailView(DetailView):
@@ -177,7 +250,6 @@ class ResourceDetailView(DetailView):
         context['resource_tasks'] = resource.tasks.order_by('-created')
 
         return context
-
 
 
 class ResourceCreateView(CreateView):
@@ -207,6 +279,7 @@ class ResourceDeleteView(DeleteView):
         get_object_or_404(Resource, pk=kwargs['pk'], author=request.user)
         return super().dispatch(request, *args, **kwargs)
 
+
 # DASHBOARD
 # DASHBOARD
 # DASHBOARD
@@ -230,4 +303,3 @@ class DashBoardView(TemplateView):
         context['latest_notes'] = Note.objects.order_by('-created')[:5]
 
         return context
-

@@ -13,4 +13,4 @@ class ParaTagAdmin(admin.ModelAdmin):
 class ParaTaggedItemAdmin(admin.ModelAdmin):
     """Админка для связи тегов."""
     list_display = ('tag',)
-    list_filter = ('tag', 'content_type', 'object_id', 'content_object')
+    list_filter = ('tag',)

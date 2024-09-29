@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+
+from comments.models import Comment
 
 User = get_user_model()
 
@@ -33,6 +35,7 @@ class BaseParaModel(models.Model):
     deadline = models.DateField(null=True, blank=True, verbose_name="Дедлайн")
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, verbose_name="Приоритет")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    comments = GenericRelation(Comment, content_type_field='content_type', object_id_field='object_id')
 
     class Meta:
         abstract = True
