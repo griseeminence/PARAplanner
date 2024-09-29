@@ -4,8 +4,11 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
 
+from comments.forms import CommentForm
 from notes.forms import NoteForm
 from notes.models import Note
+from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, \
+    handle_comment_editing, handle_edit_request
 
 
 class NoteListView(ListView):
@@ -29,10 +32,41 @@ class NoteListView(ListView):
             return Note.objects.all()
 
 
-
 class NoteDetailView(DetailView):
     template_name = 'note/note_detail.html'
+    redirect_url = 'notes:note_detail'
     model = Note
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        note = self.object
+        context['comments'] = note.comments.filter(active=True).order_by('-created')
+        context['comment_form'] = CommentForm()
+        context['editing_comment'] = None
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Получаем объект проекта
+
+        # Обработка добавления нового комментария
+        if 'submit_comment' in request.POST:
+            return handle_comment_creation(request, self.object, self.redirect_url)
+
+        # Обработка редактирования комментария
+        elif 'edit_comment' in request.POST:
+            return handle_comment_editing(request, self.object, self.redirect_url)
+
+        # Обработка запроса на редактирование комментария
+        elif 'edit' in request.POST:
+            context = handle_edit_request(request, self.object, self.get_context_data)
+            if context:
+                return self.render_to_response(context)
+
+        # Обработка удаления комментария
+        elif 'delete_comment' in request.POST:
+            return handle_comment_deletion(request, self.object, self.redirect_url)
+
+        return self.get(request, *args, **kwargs)
 
 
 class NoteCreateView(CreateView):

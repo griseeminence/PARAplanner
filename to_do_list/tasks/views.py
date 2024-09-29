@@ -8,7 +8,8 @@ from para.models import Project
 from .models import Task
 from .forms import TaskForm
 from comments.forms import CommentForm
-
+from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, \
+    handle_comment_editing, handle_edit_request
 
 class TaskListView(ListView):
     template_name = 'tasks/task_list.html'
@@ -71,22 +72,36 @@ class TaskDeleteView(DeleteView, LoginRequiredMixin):
 
 class TaskDetailView(DetailView, LoginRequiredMixin):
     template_name = 'tasks/task_detail.html'
+    redirect_url = 'tasks:task_detail'
     model = Task
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         task = self.get_object()
-        context['comments'] = task.comments.filter(active=True)
-        context['form'] = CommentForm()
+        context['comments'] = task.comments.filter(active=True).order_by('-created')
+        context['comment_form'] = CommentForm()
+        context['editing_comment'] = None
         return context
 
     def post(self, request, *args, **kwargs):
-        task = self.get_object()  # Получаем задачу напрямую
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user  # Устанавливаем автора
-            comment.task = task  # Устанавливаем задачу
-            comment.save()
-            return redirect('tasks:task_detail', pk=task.pk)
-        return self.render_to_response(self.get_context_data(form=form))
+        self.object = self.get_object()  # Получаем объект проекта
+
+        # Обработка добавления нового комментария
+        if 'submit_comment' in request.POST:
+            return handle_comment_creation(request, self.object, self.redirect_url)
+
+        # Обработка редактирования комментария
+        elif 'edit_comment' in request.POST:
+            return handle_comment_editing(request, self.object, self.redirect_url)
+
+        # Обработка запроса на редактирование комментария
+        elif 'edit' in request.POST:
+            context = handle_edit_request(request, self.object, self.get_context_data)
+            if context:
+                return self.render_to_response(context)
+
+        # Обработка удаления комментария
+        elif 'delete_comment' in request.POST:
+            return handle_comment_deletion(request, self.object, self.redirect_url)
+
+        return self.get(request, *args, **kwargs)

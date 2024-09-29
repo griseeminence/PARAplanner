@@ -49,8 +49,8 @@
               {{ comment_form.text.label }}  <!-- Заголовок поля -->
               {{ comment_form.text }}  <!-- Поле ввода текста с предзаполненным значением -->
               <div class="d-flex justify-content-center mb-3 mt-3">
-                <button type="submit" name="edit_comment" class="btn btn-success btn-rounded" data-mdb-ripple-init>
-                  Сохранить комментарий
+                <button type="submit" name="edit_comment" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>
+                  Редактировать
                 </button>
               </div>
             </form>
@@ -59,8 +59,8 @@
               {% csrf_token %}
               {{ comment_form.as_p }}
               <div class="d-flex justify-content-center mb-3 mt-3">
-                <button type="submit" name="submit_comment" class="btn btn-success btn-rounded" data-mdb-ripple-init>
-                  Добавить комментарий
+                <button type="submit" name="submit_comment" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>
+                  Опубликовать
                 </button>
               </div>
             </form>
@@ -128,8 +128,8 @@
           </div>
           <div class="d-flex justify-content-center">
             <a href="{% url 'notes:note_create' %}" class="btn btn-secondary btn-rounded"
-               data-mdb-ripple-init>
-              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+               data-mdb-ripple-init> Добавить
+              {#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>
@@ -158,8 +158,8 @@
           </div>
           <div class="d-flex justify-content-center">
             <a href="{% url 'tasks:task_create' %}" class="btn btn-secondary btn-rounded"
-               data-mdb-ripple-init>
-              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+               data-mdb-ripple-init> Добавить
+              {#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>

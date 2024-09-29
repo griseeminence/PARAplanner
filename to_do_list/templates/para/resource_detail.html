@@ -26,9 +26,7 @@
             </p>
 
           </div>
-          <p class="text-muted text-center">
-            !!!-Здесь будут комментарии-!!!
-          </p>
+
           <hr class="my-3"/>
           <div class="d-flex justify-content-center">
             <a href="{% url 'para:resource_list' %}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
@@ -44,6 +42,69 @@
               <i class="bi bi-trash"></i>
             </a>
           </div>
+
+          {% comment %}Comments{% endcomment %}
+          <hr class="my-3"/>
+
+          {% if editing_comment %}
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="comment_id" value="{{ editing_comment.id }}">
+              {{ comment_form.text.label }}  <!-- Заголовок поля -->
+              {{ comment_form.text }}  <!-- Поле ввода текста с предзаполненным значением -->
+              <div class="d-flex justify-content-center mb-3 mt-3">
+                <button type="submit" name="edit_comment" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>
+                  Редактировать
+                </button>
+              </div>
+            </form>
+          {% else %}
+            <form method="POST">
+              {% csrf_token %}
+              {{ comment_form.as_p }}
+              <div class="d-flex justify-content-center mb-3 mt-3">
+                <button type="submit" name="submit_comment" class="btn btn-secondary btn-rounded" data-mdb-ripple-init>
+                  Опубликовать
+                </button>
+              </div>
+            </form>
+          {% endif %}
+
+          <br>
+          <ul>
+            {% for comment in comments %}
+              <div class="card mb-3">
+                <div class="card-body">
+                  <p>{{ comment.text }}</p>
+                  <small>Автор: {{ comment.author }} | Дата: {{ comment.created }}</small>
+                  <!-- Форма редактирования комментария -->
+                  {% if comment.author == request.user %}
+                    <form method="post" style="display:inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                      <button type="submit" name="edit" class="btn btn-warning btn-rounded btn-sm"
+                              data-mdb-ripple-init>
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </form>
+                    <!-- Форма удаления комментария -->
+                    <form method="post" style="display:inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                      <button type="submit" name="delete_comment" class="btn btn-danger btn-rounded btn-sm"
+                              data-mdb-ripple-init>
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </ul>
+
+          {% comment %}Comments{% endcomment %}
+
+
         </div>
       </div>
 
@@ -67,13 +128,14 @@
             {% endfor %}
           </div>
           <div class="d-flex justify-content-center">
-            <a href="{% url 'notes:note_list' %}?resource_id={{ object.id }}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
+            <a href="{% url 'notes:note_list' %}?resource_id={{ object.id }}" class="btn btn-dark btn-rounded mb-2"
+               data-mdb-ripple-init>Список
               заметок</a>
           </div>
           <div class="d-flex justify-content-center">
             <a href="{% url 'notes:note_create' %}" class="btn btn-secondary btn-rounded"
-               data-mdb-ripple-init>
-              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+               data-mdb-ripple-init>Создать
+{#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>
@@ -96,13 +158,14 @@
             {% endfor %}
           </div>
           <div class="d-flex justify-content-center">
-            <a href="{% url 'tasks:task_list' %}?resource_id={{ object.id }}" class="btn btn-dark btn-rounded mb-2" data-mdb-ripple-init>Список
+            <a href="{% url 'tasks:task_list' %}?resource_id={{ object.id }}" class="btn btn-dark btn-rounded mb-2"
+               data-mdb-ripple-init>Список
               задач</a>
           </div>
           <div class="d-flex justify-content-center">
             <a href="{% url 'tasks:task_create' %}" class="btn btn-secondary btn-rounded"
-               data-mdb-ripple-init>
-              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->
+               data-mdb-ripple-init>Создать
+{#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>

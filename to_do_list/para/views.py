@@ -14,7 +14,9 @@ from notes.models import Note
 from para.forms import AreaForm, ProjectForm, ResourceForm
 from para.models import Area, Project, Resource, ResourceType
 from tasks.models import Task
-from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, handle_comment_editing, handle_edit_request
+from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, \
+    handle_comment_editing, handle_edit_request
+
 
 # AREAS
 # AREAS
@@ -45,6 +47,7 @@ class AreaListView(ListView):
 
 class AreaDetailView(DetailView):
     template_name = 'para/area_detail.html'
+    redirect_url = 'para:area_detail'
     model = Area
 
     def get_context_data(self, **kwargs):
@@ -52,8 +55,33 @@ class AreaDetailView(DetailView):
         area = self.object
         context['area_notes'] = area.notes.order_by('-created')
         context['area_tasks'] = area.tasks.order_by('-created')
-
+        context['comments'] = area.comments.filter(active=True).order_by('-created')
+        context['comment_form'] = CommentForm()
+        context['editing_comment'] = None
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Получаем объект проекта
+
+        # Обработка добавления нового комментария
+        if 'submit_comment' in request.POST:
+            return handle_comment_creation(request, self.object, self.redirect_url)
+
+        # Обработка редактирования комментария
+        elif 'edit_comment' in request.POST:
+            return handle_comment_editing(request, self.object, self.redirect_url)
+
+        # Обработка запроса на редактирование комментария
+        elif 'edit' in request.POST:
+            context = handle_edit_request(request, self.object, self.get_context_data)
+            if context:
+                return self.render_to_response(context)
+
+        # Обработка удаления комментария
+        elif 'delete_comment' in request.POST:
+            return handle_comment_deletion(request, self.object, self.redirect_url)
+
+        return self.get(request, *args, **kwargs)
 
 
 class AreaCreateView(CreateView):
@@ -138,8 +166,6 @@ class ProjectDetailView(DetailView):
         return self.get(request, *args, **kwargs)
 
 
-
-
 class ProjectCreateView(CreateView):
     template_name = 'para/project_create.html'
     model = Project
@@ -202,6 +228,7 @@ class ResourceListView(ListView):
 
 class ResourceDetailView(DetailView):
     template_name = 'para/resource_detail.html'
+    redirect_url = 'para:resource_detail'
     model = Resource
 
     def get_context_data(self, **kwargs):
@@ -209,8 +236,33 @@ class ResourceDetailView(DetailView):
         resource = self.object
         context['resource_notes'] = resource.notes.order_by('-created')
         context['resource_tasks'] = resource.tasks.order_by('-created')
-
+        context['comments'] = resource.comments.filter(active=True).order_by('-created')
+        context['comment_form'] = CommentForm()
+        context['editing_comment'] = None
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Получаем объект проекта
+
+        # Обработка добавления нового комментария
+        if 'submit_comment' in request.POST:
+            return handle_comment_creation(request, self.object, self.redirect_url)
+
+        # Обработка редактирования комментария
+        elif 'edit_comment' in request.POST:
+            return handle_comment_editing(request, self.object, self.redirect_url)
+
+        # Обработка запроса на редактирование комментария
+        elif 'edit' in request.POST:
+            context = handle_edit_request(request, self.object, self.get_context_data)
+            if context:
+                return self.render_to_response(context)
+
+        # Обработка удаления комментария
+        elif 'delete_comment' in request.POST:
+            return handle_comment_deletion(request, self.object, self.redirect_url)
+
+        return self.get(request, *args, **kwargs)
 
 
 class ResourceCreateView(CreateView):
