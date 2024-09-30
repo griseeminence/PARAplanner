@@ -17,7 +17,7 @@
       <div class="row gx-lg-5">
 
         <!-- Column -->
-        {% for resource in resources_project_areas %}
+        {% for resource in object_list %}
           <div class="col-lg-4 col-md-12 mb-7">
 
             <div class="card rounded-6 h-100">
@@ -66,6 +66,9 @@
           <p>Нет Ресурсов для отображения.</p>
         {% endfor %}
       </div>
+      <!-- Pagination -->
+      {% include 'includes/pagination.html' %}
+      <!-- Pagination -->
     </section>
   </div>
 {% endblock %}

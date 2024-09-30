@@ -15,7 +15,7 @@ class TaskListView(ListView):
     template_name = 'tasks/task_list.html'
     model = Task
     ordering = '-id'
-    paginate_by = 5
+    paginate_by = 3
     # context_object_name = 'tasks' # обращение через tasks, а не через object_list
 
     def get_queryset(self):

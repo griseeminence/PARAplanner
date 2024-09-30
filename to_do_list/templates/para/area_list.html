@@ -16,7 +16,7 @@
       <div class="row gx-lg-5">
 
         <!-- Column -->
-        {% for area in areas_project %}
+        {% for area in object_list %}
           <div class="col-lg-4 col-md-12 mb-7">
 
             <div class="card rounded-6 h-100">
@@ -64,6 +64,7 @@
           <p>Нет Областей для отображения.</p>
         {% endfor %}
       </div>
+    {% include 'includes/pagination.html' %}
     </section>
   </div>
 {% endblock %}

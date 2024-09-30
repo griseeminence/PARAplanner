@@ -1,0 +1,69 @@
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <!-- Проверяем, что есть больше одной страницы (is_paginated) -->
+    {% if is_paginated %}
+
+      <!-- Ссылка на первую страницу -->
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1" aria-label="First">
+            &laquo;&laquo;
+          </a>
+        </li>
+
+        <!-- Ссылка на предыдущую страницу -->
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            &laquo;
+          </a>
+        </li>
+      {% else %}
+        <!-- Делаем ссылки неактивными, если это первая страница -->
+        <li class="page-item disabled">
+          <a class="page-link">&laquo;&laquo;</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link">&laquo;</a>
+        </li>
+      {% endif %}
+
+      <!-- Перебираем номера страниц (в диапазоне +/- 2 страницы от текущей) -->
+      {% for page_num in paginator.page_range %}
+        {% if page_num == page_obj.number %}
+          <!-- Текущая страница -->
+          <li class="page-item active">
+            <a class="page-link">{{ page_num }}</a>
+          </li>
+        {% elif page_num >= page_obj.number|add:-2 and page_num <= page_obj.number|add:2 %}
+          <!-- Ссылки на другие страницы -->
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      <!-- Ссылка на следующую страницу -->
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            &raquo;
+          </a>
+        </li>
+        <!-- Ссылка на последнюю страницу -->
+        <li class="page-item">
+          <a class="page-link" href="?page={{ paginator.num_pages }}" aria-label="Last">
+            &raquo;&raquo;
+          </a>
+        </li>
+      {% else %}
+        <!-- Если это последняя страница, делаем ссылки неактивными -->
+        <li class="page-item disabled">
+          <a class="page-link">&raquo;</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link">&raquo;&raquo;</a>
+        </li>
+      {% endif %}
+    {% endif %}
+  </ul>
+</nav>

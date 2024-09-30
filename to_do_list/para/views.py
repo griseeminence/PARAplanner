@@ -32,16 +32,14 @@ class AreaListView(ListView):
     template_name = 'para/area_list.html'
     model = Area
     ordering = '-id'
-    paginate_by = 4
+    paginate_by = 3
+
+    def get_queryset(self):
+        # Оптимизация запросов с prefetch_related
+        return Area.objects.prefetch_related('projects').order_by(self.ordering)
 
     def get_context_data(self, **kwargs):
-        # Получаем базовый контекст
         context = super().get_context_data(**kwargs)
-        # Добавляем в контекст предзагруженные области с проектами
-        # Можно обойтись и без использования prefetch_related - код внутри html не изменится
-        # Используем prefetch_related для оптимизации и сокращения запросов к БД.
-        # То есть в общем цикле мы просто используем вместо objects_list - areas_project
-        context['areas_project'] = Area.objects.prefetch_related('projects')
         return context
 
 
@@ -124,7 +122,7 @@ class ProjectListView(ListView):
     template_name = 'para/project_list.html'
     model = Project
     ordering = '-id'
-    paginate_by = 4
+    paginate_by = 3
 
 
 class ProjectDetailView(DetailView):
@@ -208,21 +206,19 @@ class ResourceListView(ListView):
     template_name = 'para/resource_list.html'
     model = Resource
     ordering = '-id'
-    paginate_by = 4
+    paginate_by = 3
 
     # меняем сам queryset выводимый в object_list
     # оба способа рабочие - но в этом случае просто добавим контекст, сохранив основной queryset
     # def get_queryset(self):
     #     return Resource.objects.prefetch_related('area', 'project')
 
+    def get_queryset(self):
+        # Оптимизация запросов с prefetch_related
+        return Resource.objects.prefetch_related('area', 'project')
+
     def get_context_data(self, **kwargs):
-        # Получаем базовый контекст
         context = super().get_context_data(**kwargs)
-        # Добавляем в контекст предзагруженные области с проектами
-        # Можно обойтись и без использования prefetch_related - код внутри html не изменится
-        # Используем prefetch_related для оптимизации и сокращения запросов к БД.
-        # То есть в общем цикле мы просто используем вместо objects_list - areas_project
-        context['resources_project_areas'] = Resource.objects.prefetch_related('area', 'project')
         return context
 
 

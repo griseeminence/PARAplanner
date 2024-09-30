@@ -15,7 +15,7 @@ class NoteListView(ListView):
     template_name = 'note/note_list.html'
     model = Note
     ordering = '-id'
-    paginate_by = 4
+    paginate_by = 6
 
     def get_queryset(self):
         # Проверяем, есть ли project_id в URL
