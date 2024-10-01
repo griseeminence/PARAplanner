@@ -7,10 +7,12 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
+from django_filters.views import FilterView
 
 from comments.forms import CommentForm
 from comments.models import Comment
 from notes.models import Note
+from para.filters import ParaFilter
 from para.forms import AreaForm, ProjectForm, ResourceForm
 from para.models import Area, Project, Resource, ResourceType
 from tasks.models import Task
@@ -28,15 +30,19 @@ from comments.utils import get_comment, user_is_author, handle_comment_creation,
 # AREAS
 
 
-class AreaListView(ListView):
+class AreaListView(FilterView):
     template_name = 'para/area_list.html'
     model = Area
     ordering = '-id'
     paginate_by = 3
+    filterset_class = ParaFilter
 
     def get_queryset(self):
         # Оптимизация запросов с prefetch_related
-        return Area.objects.prefetch_related('projects').order_by(self.ordering)
+        queryset = Area.objects.prefetch_related('projects').order_by(self.ordering)
+        self.filterset_class.Meta.model = Area
+        # Применяем фильтр к queryset
+        return self.filterset_class(self.request.GET, queryset=queryset).qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,11 +124,22 @@ class AreaDeleteView(DeleteView):
 # PROJECTS
 
 
-class ProjectListView(ListView):
+class ProjectListView(FilterView):
     template_name = 'para/project_list.html'
     model = Project
     ordering = '-id'
     paginate_by = 3
+    filterset_class = ParaFilter
+
+    def get_queryset(self):
+        queryset = Project.objects.all()
+        self.filterset_class.Meta.model = Project
+        # Применяем фильтр к queryset
+        return self.filterset_class(self.request.GET, queryset=queryset).qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class ProjectDetailView(DetailView):
@@ -202,11 +219,12 @@ class ProjectDeleteView(DeleteView):
 # RESOURCES
 
 
-class ResourceListView(ListView):
+class ResourceListView(FilterView):
     template_name = 'para/resource_list.html'
     model = Resource
     ordering = '-id'
     paginate_by = 3
+    filterset_class = ParaFilter
 
     # меняем сам queryset выводимый в object_list
     # оба способа рабочие - но в этом случае просто добавим контекст, сохранив основной queryset
@@ -215,7 +233,10 @@ class ResourceListView(ListView):
 
     def get_queryset(self):
         # Оптимизация запросов с prefetch_related
-        return Resource.objects.prefetch_related('area', 'project')
+        queryset = Resource.objects.prefetch_related('area', 'project').order_by(self.ordering)
+        self.filterset_class.Meta.model = Project
+        # Применяем фильтр к queryset
+        return self.filterset_class(self.request.GET, queryset=queryset).qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

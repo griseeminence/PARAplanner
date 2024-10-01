@@ -3,25 +3,29 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse
+from django_filters.views import FilterView
 
 from comments.forms import CommentForm
+from notes.filters import NoteFilter
 from notes.forms import NoteForm
 from notes.models import Note
 from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, \
     handle_comment_editing, handle_edit_request
 
 
-class NoteListView(ListView):
+class NoteListView(FilterView):
     template_name = 'note/note_list.html'
     model = Note
     ordering = '-id'
     paginate_by = 6
+    filterset_class = NoteFilter
 
     def get_queryset(self):
         # Проверяем, есть ли project_id в URL
         project_id = self.request.GET.get('project_id')  # Используем GET-параметр
         resource_id = self.request.GET.get('resource_id')  # Используем GET-параметр
         area_id = self.request.GET.get('area_id')  # Используем GET-параметр
+        queryset = Note.objects.all()
         if project_id:
             return Note.objects.filter(project_id=project_id)
         elif resource_id:
@@ -29,7 +33,11 @@ class NoteListView(ListView):
         elif area_id:
             return Note.objects.filter(area_id=area_id)
         else:
-            return Note.objects.all()
+            return self.filterset_class(self.request.GET, queryset=queryset).qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class NoteDetailView(DetailView):

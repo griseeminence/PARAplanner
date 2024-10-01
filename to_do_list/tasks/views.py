@@ -3,7 +3,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django_filters.views import FilterView
 
+from para.filters import ParaFilter
 from para.models import Project
 from .models import Task
 from .forms import TaskForm
@@ -11,11 +13,14 @@ from comments.forms import CommentForm
 from comments.utils import get_comment, user_is_author, handle_comment_creation, handle_comment_deletion, \
     handle_comment_editing, handle_edit_request
 
-class TaskListView(ListView):
+
+class TaskListView(FilterView):
     template_name = 'tasks/task_list.html'
     model = Task
     ordering = '-id'
     paginate_by = 3
+    filterset_class = ParaFilter
+
     # context_object_name = 'tasks' # обращение через tasks, а не через object_list
 
     def get_queryset(self):
@@ -23,6 +28,8 @@ class TaskListView(ListView):
         project_id = self.request.GET.get('project_id')  # Используем GET-параметр
         resource_id = self.request.GET.get('resource_id')  # Используем GET-параметр
         area_id = self.request.GET.get('area_id')  # Используем GET-параметр
+        queryset = Task.objects.all()
+        self.filterset_class.Meta.model = Project
         if project_id:
             return Task.objects.filter(project_id=project_id)
         elif resource_id:
@@ -30,7 +37,11 @@ class TaskListView(ListView):
         elif area_id:
             return Task.objects.filter(area_id=area_id)
         else:
-            return Task.objects.all()
+            return self.filterset_class(self.request.GET, queryset=queryset).qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 class TaskCreateView(CreateView, LoginRequiredMixin):
