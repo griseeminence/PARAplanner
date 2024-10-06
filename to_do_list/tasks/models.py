@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+
+from core.models import ParaTag
 from para.models import BaseParaModel, Area, Resource, Project
 
 User = get_user_model()
@@ -30,7 +32,7 @@ class Task(BaseParaModel):
     area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
-
+    tags = models.ManyToManyField(ParaTag, related_name='tasks', blank=True, verbose_name='Тег')
     class Meta:
         ordering = ['-id']
         verbose_name = 'Задача'

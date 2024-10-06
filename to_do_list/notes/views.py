@@ -6,6 +6,7 @@ from django.urls import reverse
 from django_filters.views import FilterView
 
 from comments.forms import CommentForm
+from core.models import ParaTag
 from notes.filters import NoteFilter
 from notes.forms import NoteForm
 from notes.models import Note
@@ -84,7 +85,19 @@ class NoteCreateView(CreateView):
     success_url = reverse_lazy('notes:note_list')
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        note = form.save(commit=False)
+        note.author = self.request.user
+        note.save()  # Теперь мы сохраняем заметку и получаем ID
+
+        # Теперь добавляем теги после сохранения заметки
+        new_tag = form.cleaned_data.get('new_tag')
+        if new_tag:
+            tag, created = ParaTag.objects.get_or_create(title=new_tag)
+            note.tags.add(tag)  # Теперь это безопасно
+
+        # Сохраняем многие-ко-многим отношения
+        form.save_m2m()  # Это сохранит другие многие-ко-многим отношения
+
         return super().form_valid(form)
 
 

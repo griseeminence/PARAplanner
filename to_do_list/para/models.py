@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
 from comments.models import Comment
+from core.models import ParaTag
 
 User = get_user_model()
 
@@ -37,11 +38,13 @@ class BaseParaModel(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
     comments = GenericRelation(Comment, content_type_field='content_type', object_id_field='object_id')
 
+
     class Meta:
         abstract = True
 
 
 class Area(BaseParaModel):
+    tags = models.ManyToManyField(ParaTag, related_name='areas', blank=True, verbose_name='Тег')
     class Meta:
         verbose_name = 'Область'
         verbose_name_plural = 'Области'
@@ -56,7 +59,7 @@ class Area(BaseParaModel):
 
 class Project(BaseParaModel):
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='projects', blank=True, null=True)
-
+    tags = models.ManyToManyField(ParaTag, related_name='projects', blank=True, verbose_name='Тег')
     class Meta:
         verbose_name = 'Проект'
         verbose_name_plural = 'Проекты'
@@ -73,6 +76,7 @@ class Project(BaseParaModel):
 class Resource(BaseParaModel):
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='resources', null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, related_name='resources', null=True, blank=True)
+    tags = models.ManyToManyField(ParaTag, related_name='resources', blank=True, verbose_name='Тег')
     resource_type = models.ForeignKey('ResourceType', on_delete=models.SET_NULL, verbose_name='Тип ресурса', null=True,
                                       blank=True)
 

@@ -3,6 +3,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
 from comments.models import Comment
+from core.models import ParaTag
 from para.models import Area, Project, Resource
 
 User = get_user_model()
@@ -18,6 +19,7 @@ class Note(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
     is_archived = models.BooleanField(default=False, verbose_name='Архив')
     comments = GenericRelation(Comment, content_type_field='content_type', object_id_field='object_id')
+    tags = models.ManyToManyField(ParaTag, related_name='notes', blank=True, verbose_name='Тег')
 
     class Meta:
         verbose_name = 'Заметка'

@@ -1,8 +1,12 @@
 from django import forms
+
+from core.models import ParaTag
 from notes.models import Note
 
 
 class NoteForm(forms.ModelForm):
+    new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
+
     class Meta:
         model = Note
         exclude = ('author',)
@@ -35,4 +39,16 @@ class NoteForm(forms.ModelForm):
                 'class': 'form-select',
                 'id': 'areaStatus'
             }),
+            'new_tag': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'TagTitle',
+                'placeholder': 'Введите тег'
+            })
         }
+
+
+    def save(self, commit=True):
+        instance = super().save(commit=commit)  # Сохраняем экземпляр
+        if commit:
+            instance.save()  # Убедитесь, что экземпляр сохранен
+        return instance
