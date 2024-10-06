@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import ParaTag, ParaTaggedItem
+from core.models import ParaTag
 
 
 @admin.register(ParaTag)
@@ -9,8 +9,3 @@ class ParaTagAdmin(admin.ModelAdmin):
     list_filter = ('title',)
 
 
-@admin.register(ParaTaggedItem)
-class ParaTaggedItemAdmin(admin.ModelAdmin):
-    """Админка для связи тегов."""
-    list_display = ('tag',)
-    list_filter = ('tag',)

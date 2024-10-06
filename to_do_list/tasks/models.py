@@ -13,17 +13,17 @@ STATUS_CHOICES = [
 ]
 
 
-class Tag(models.Model):
-    title = models.CharField('Название тега', max_length=25, unique=True)
-    description = models.TextField('Описание и примеры использования', max_length=100)
-
-    class Meta:
-        ordering = ['-id']
-        verbose_name = 'ТегУДАЛИТЬМОДЕЛЬ'
-        verbose_name_plural = 'ТегиУДАЛИТЬМОДЕЛЬ'
-
-    def __str__(self):
-        return self.title
+# class Tag(models.Model):
+#     title = models.CharField('Название тега', max_length=25, unique=True)
+#     description = models.TextField('Описание и примеры использования', max_length=100)
+#
+#     class Meta:
+#         ordering = ['-id']
+#         verbose_name = 'ТегУДАЛИТЬМОДЕЛЬ'
+#         verbose_name_plural = 'ТегиУДАЛИТЬМОДЕЛЬ'
+#
+#     def __str__(self):
+#         return self.title
 
 
 class Task(BaseParaModel):
