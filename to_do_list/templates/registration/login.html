@@ -1,45 +1,42 @@
-<!-- templates/registration/login.html -->
-{% extends "base.html" %}
-<!-- Загружаем библиотеку для работы со стилями Bootstrap. -->
+{% extends "base_mdb.html" %}
 {% load django_bootstrap5 %}
 
 {% block content %}
-  <!-- Если в запросе передан GET-параметр с указанием страницы,
-    куда надо перейти после входа. -->
+  <!-- Если в запросе передан GET-параметр с указанием страницы, куда надо перейти после входа. -->
   {% if next %}
     <!-- Если пользователь уже залогинен, но не обладает нужными правами. -->
     {% if user.is_authenticated %}
-      <p>
+      <p class="fw-bold mb-3 text-center">
         У вашего аккаунта нет доступа к этой странице.
         Чтобы продолжить, войдите в систему с аккаунтом,
         у которого есть доступ.
       </p>
     {% else %}
-      <p>
+      <p class="fw-bold mb-3 text-center">
         Пожалуйста, войдите в систему,
         чтобы просматривать эту страницу.
       </p>
     {% endif %}
   {% endif %}
-
-  <div class="card col-4 m-3 text-white bg-secondary">
-    <div class="card-header">
-      Войти в систему
-    </div>
-    <div class="card-body">
-      <!-- В атрибуте action указываем адрес, куда должен отправляться запрос. -->
-      <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <!-- В скрытом поле передаём параметр next,
-          это URL для переадресации после логина. -->
-        <input type="hidden" name="next" value="{{ next }}">
-        {% bootstrap_button button_type="submit" content="Войти" %}
-      </form>
-      <div>
-        <!-- Ссылка для перехода на страницу восстановления пароля. -->
-        <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+  <div class="container-fluid">
+    <div class="row h-100 justify-content-center align-items-center">
+      <div class="col-lg-6 full-height">
+        <div style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;"
+             class="card rounded-7 mb-3 p-lg-5">
+          <h3 class="fw-bold mb-3 text-center">Войти в систему</h3>
+          <div class="card-body">
+            <!-- В атрибуте action указываем адрес, куда должен отправляться запрос. -->
+            <form method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              <!-- В скрытом поле передаём параметр next, это URL для переадресации после логина. -->
+              <input type="hidden" name="next" value="{{ next }}">
+              {% bootstrap_button button_type="submit" content="Войти" %}
+            </form>
+            <div>
+              <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 {% endblock %}
