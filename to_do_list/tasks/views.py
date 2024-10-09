@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse
 from django_filters.views import FilterView
 
+from core.models import ParaTag
 from para.filters import ParaFilter
 from para.models import Project
 from .models import Task
@@ -51,9 +52,16 @@ class TaskCreateView(CreateView, LoginRequiredMixin):
     form_class = TaskForm
 
     def form_valid(self, form):
-        # Присвоить полю author объект пользователя из запроса.
-        form.instance.author = self.request.user
-        # Продолжить валидацию, описанную в форме.
+        task = form.save(commit=False)
+        task.author = self.request.user
+        task.save()
+        form.save_m2m()
+        new_tag = form.cleaned_data.get('new_tag')
+        print(f"Полученный новый тег: {new_tag}")
+        if new_tag:
+            tag, created = ParaTag.objects.get_or_create(title=new_tag)
+            task.tags.add(tag)
+        print(f"Теги задачи: {[t.title for t in task.tags.all()]}")
         return super().form_valid(form)
 
 

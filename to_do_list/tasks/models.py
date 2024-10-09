@@ -33,6 +33,7 @@ class Task(BaseParaModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, null=True, blank=True, related_name='tasks')
     tags = models.ManyToManyField(ParaTag, related_name='tasks', blank=True, verbose_name='Тег')
+
     class Meta:
         ordering = ['-id']
         verbose_name = 'Задача'

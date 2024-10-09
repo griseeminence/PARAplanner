@@ -57,6 +57,16 @@
                 <hr class="my-3"/>
                 <p class="text-muted">
                   <small>Deadline: <u>{{ task.deadline }}</u>;
+                    Tags:
+                    {% if task.tags.all %}
+                      <u>
+                        {% for tag in task.tags.all %}
+                          {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </u>
+                    {% else %}
+                      <span>No tags</span>
+                    {% endif %}
                     {% if task.area %}
                       Область: {{ task.area.title }}{% if task.area %}, {% endif %}
                     {% else %}
