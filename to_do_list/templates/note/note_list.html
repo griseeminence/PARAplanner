@@ -52,18 +52,29 @@
                    data-mdb-ripple-init>Подробнее</a>
                 <hr class="my-3"/>
                 <p class="text-muted">
-                  <small>Deadline: <u>{{ note.deadline }}</u>;
-                    {% if note.area %}
-                      Область: {{ note.area.title }}{% if note.area %}, {% endif %}
+                  <small>
+                    Deadline: <u>{{ note.deadline }}</u>;
+                    Tags:
+                    {% if note.tags.all %}
+                      <u>
+                        {% for tag in note.tags.all %}
+                          {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </u>
                     {% else %}
-                      Нет области для этой заметки.
+                      <span>No tags</span>
                     {% endif %}
-                    {% if note.project %}
-                      Проект: {{ note.project.title }}{% if note.project %}, {% endif %}
-                    {% else %}
-                      Нет проекта для этой заметки.
-                    {% endif %}
-                  </small>
+                {% if note.area %}
+                  Область: {{ note.area.title }}{% if note.area %}, {% endif %}
+                {% else %}
+                  Нет области для этой заметки.
+                {% endif %}
+                {% if note.project %}
+                  Проект: {{ note.project.title }}{% if note.project %}, {% endif %}
+                {% else %}
+                  Нет проекта для этой заметки.
+                {% endif %}
+                </small>
                 <hr class="my-3"/>
                 <p>{{ note.description|truncatewords:50 }}</p>
                 </p>

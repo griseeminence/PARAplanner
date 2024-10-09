@@ -87,17 +87,14 @@ class NoteCreateView(CreateView):
     def form_valid(self, form):
         note = form.save(commit=False)
         note.author = self.request.user
-        note.save()  # Теперь мы сохраняем заметку и получаем ID
-
-        # Теперь добавляем теги после сохранения заметки
+        note.save()
+        form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')
+        print(f"Полученный новый тег: {new_tag}")
         if new_tag:
             tag, created = ParaTag.objects.get_or_create(title=new_tag)
-            note.tags.add(tag)  # Теперь это безопасно
-
-        # Сохраняем многие-ко-многим отношения
-        form.save_m2m()  # Это сохранит другие многие-ко-многим отношения
-
+            note.tags.add(tag)
+        print(f"Теги заметки: {[t.title for t in note.tags.all()]}")
         return super().form_valid(form)
 
 

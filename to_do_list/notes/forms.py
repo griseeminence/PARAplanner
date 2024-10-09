@@ -46,9 +46,10 @@ class NoteForm(forms.ModelForm):
             })
         }
 
-
     def save(self, commit=True):
-        instance = super().save(commit=commit)  # Сохраняем экземпляр
+        instance = super().save(commit=False)
+
         if commit:
-            instance.save()  # Убедитесь, что экземпляр сохранен
+            instance.save()
+            print(f"Заметка {instance.id} сохранена")
         return instance
