@@ -56,7 +56,19 @@
                    data-mdb-ripple-init>Подробнее</a>
                 <hr class="my-3"/>
                 <p class="text-muted">
-                  <small>Deadline: <u>{{ project.deadline }}</u>; Area: {{ project.area.title }}</small>
+                  <small>
+                    Deadline: <u>{{ project.deadline }}</u>; Area: {{ project.area.title }}
+                    Tags:
+                    {% if project.tags.all %}
+                      <u>
+                        {% for tag in project.tags.all %}
+                          {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </u>
+                    {% else %}
+                      <span>No tags</span>
+                    {% endif %}
+                  </small>
                 <hr class="my-3"/>
                 <p>{{ project.description|truncatewords:50 }}</p>
                 </p>

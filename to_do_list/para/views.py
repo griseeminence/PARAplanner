@@ -11,6 +11,7 @@ from django_filters.views import FilterView
 
 from comments.forms import CommentForm
 from comments.models import Comment
+from core.models import ParaTag
 from notes.models import Note
 from para.filters import ParaFilter
 from para.forms import AreaForm, ProjectForm, ResourceForm
@@ -95,7 +96,16 @@ class AreaCreateView(CreateView):
     form_class = AreaForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        area = form.save(commit=False)
+        area.author = self.request.user
+        area.save()
+        form.save_m2m()
+        new_tag = form.cleaned_data.get('new_tag')
+        print(f"Полученный новый тег: {new_tag}")
+        if new_tag:
+            tag, created = ParaTag.objects.get_or_create(title=new_tag)
+            area.tags.add(tag)
+        print(f"Теги Области: {[t.title for t in area.tags.all()]}")
         return super().form_valid(form)
 
 
@@ -188,7 +198,16 @@ class ProjectCreateView(CreateView):
     form_class = ProjectForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        project = form.save(commit=False)
+        project.author = self.request.user
+        project.save()
+        form.save_m2m()
+        new_tag = form.cleaned_data.get('new_tag')
+        print(f"Полученный новый тег: {new_tag}")
+        if new_tag:
+            tag, created = ParaTag.objects.get_or_create(title=new_tag)
+            project.tags.add(tag)
+        print(f"Теги проекта: {[t.title for t in project.tags.all()]}")
         return super().form_valid(form)
 
 
@@ -289,7 +308,16 @@ class ResourceCreateView(CreateView):
     form_class = ResourceForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        resource = form.save(commit=False)
+        resource.author = self.request.user
+        resource.save()
+        form.save_m2m()
+        new_tag = form.cleaned_data.get('new_tag')
+        print(f"Полученный новый тег: {new_tag}")
+        if new_tag:
+            tag, created = ParaTag.objects.get_or_create(title=new_tag)
+            resource.tags.add(tag)
+        print(f"Теги ресурса: {[t.title for t in resource.tags.all()]}")
         return super().form_valid(form)
 
 

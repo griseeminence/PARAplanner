@@ -16,6 +16,17 @@
           </h2>
           <p class="text-center fst-italic"><em>Deadline: {{ project.deadline }}; Area: {{ project.area.title }}</em>
           </p>
+          <p class="text-center fst-italic">
+            <em>Теги:
+              {% if object.tags.all %}
+                {% for tag in object.tags.all %}
+                  {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% else %}
+                <span>Нет тегов</span>
+              {% endif %}
+            </em>
+          </p>
           <hr class="my-3"/>
           <div class="card-body">
             <p class="text-muted mb-4">

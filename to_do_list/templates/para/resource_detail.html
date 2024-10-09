@@ -19,6 +19,17 @@
           </h2>
           <p class="text-center fst-italic"><em>Deadline: {{ object.deadline }}; Area: {{ object.area.title }}</em>
           </p>
+          <p class="text-center fst-italic">
+            <em>Теги:
+              {% if object.tags.all %}
+                {% for tag in object.tags.all %}
+                  {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% else %}
+                <span>Нет тегов</span>
+              {% endif %}
+            </em>
+          </p>
           <hr class="my-3"/>
           <div class="card-body">
             <p class="text-muted mb-4">
@@ -135,7 +146,7 @@
           <div class="d-flex justify-content-center">
             <a href="{% url 'notes:note_create' %}" class="btn btn-secondary btn-rounded"
                data-mdb-ripple-init>Создать
-{#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
+              {#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>
@@ -165,7 +176,7 @@
           <div class="d-flex justify-content-center">
             <a href="{% url 'tasks:task_create' %}" class="btn btn-secondary btn-rounded"
                data-mdb-ripple-init>Создать
-{#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
+              {#              <i class="bi bi-plus-square-fill"></i> <!-- Иконка "добавить" -->#}
             </a>
           </div>
         </div>

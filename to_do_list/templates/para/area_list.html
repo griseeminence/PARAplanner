@@ -57,7 +57,16 @@
                 <hr class="my-3"/>
                 <p class="text-muted">
                   <small>Deadline: <u>{{ area.deadline }}</u>;
-
+                    Tags:
+                    {% if area.tags.all %}
+                      <u>
+                        {% for tag in area.tags.all %}
+                          {{ tag.title }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      </u>
+                    {% else %}
+                      <span>No tags</span>
+                    {% endif %}
                     {% if area.projects.exists %}
                       {% for project in area.projects.all %}
                         {{ project.title }}{% if not forloop.last %}, {% endif %}

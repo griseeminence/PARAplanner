@@ -3,6 +3,8 @@ from para.models import Area, Project, Resource
 
 
 class AreaForm(forms.ModelForm):
+    new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
+
     class Meta:
         model = Area
         exclude = ('author',)
@@ -38,8 +40,18 @@ class AreaForm(forms.ModelForm):
             })
         }
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        if commit:
+            instance.save()
+            print(f"Область {instance.id} сохранена")
+        return instance
+
 
 class ProjectForm(forms.ModelForm):
+    new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
+
     class Meta:
         model = Project
         exclude = ('author',)
@@ -79,8 +91,18 @@ class ProjectForm(forms.ModelForm):
             }),
         }
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        if commit:
+            instance.save()
+            print(f"Проект {instance.id} сохранена")
+        return instance
+
 
 class ResourceForm(forms.ModelForm):
+    new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
+
     class Meta:
         model = Resource
         exclude = ('author',)
@@ -127,3 +149,11 @@ class ResourceForm(forms.ModelForm):
                 'id': 'areaStatus'
             }),
         }
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        if commit:
+            instance.save()
+            print(f"Ресурс {instance.id} сохранена")
+        return instance
