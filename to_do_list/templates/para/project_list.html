@@ -45,12 +45,15 @@
                    data-mdb-ripple-init data-mdb-ripple-color="light">
 
                 {% if project.cover_image %}
-                  <img src="{{ project.cover_image.url }}" class="w-100" alt="Обложка проекта" style="width: 300px; height: 365px;">
+                  <img src="{{ project.cover_image.url }}" class="w-100" alt="Обложка проекта"
+                       style="width: 300px; height: 365px;">
                 {% else %}
-                  <img src="{% static 'img/project_card.png' %}" class="w-100" alt="Обложка проекта">
+                  <img src="{% static 'img/project_card.png' %}" class="w-100"
+                       alt="Обложка проекта" style="width: 300px; height: 365px;>
                 {% endif %}
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+
+                <a href=" #!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                 </a>
               </div>
 

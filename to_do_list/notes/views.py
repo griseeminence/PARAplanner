@@ -87,6 +87,8 @@ class NoteCreateView(CreateView):
     def form_valid(self, form):
         note = form.save(commit=False)
         note.author = self.request.user
+        if 'cover_image' in self.request.FILES:
+            note.cover_image = self.request.FILES['cover_image']
         note.save()
         form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')

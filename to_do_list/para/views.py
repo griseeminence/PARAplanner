@@ -98,6 +98,8 @@ class AreaCreateView(CreateView):
     def form_valid(self, form):
         area = form.save(commit=False)
         area.author = self.request.user
+        if 'cover_image' in self.request.FILES:
+            area.cover_image = self.request.FILES['cover_image']
         area.save()
         form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')
@@ -312,6 +314,8 @@ class ResourceCreateView(CreateView):
     def form_valid(self, form):
         resource = form.save(commit=False)
         resource.author = self.request.user
+        if 'cover_image' in self.request.FILES:
+            resource.cover_image = self.request.FILES['cover_image']
         resource.save()
         form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')

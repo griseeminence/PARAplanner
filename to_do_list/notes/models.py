@@ -1,7 +1,10 @@
+from io import BytesIO
+
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
+from django.core.files.base import ContentFile
 from django.db import models
-
+from PIL import Image
 from comments.models import Comment
 from core.models import ParaTag
 from para.models import Area, Project, Resource
@@ -20,6 +23,7 @@ class Note(models.Model):
     is_archived = models.BooleanField(default=False, verbose_name='Архив')
     comments = GenericRelation(Comment, content_type_field='content_type', object_id_field='object_id')
     tags = models.ManyToManyField(ParaTag, related_name='notes', blank=True, verbose_name='Тег')
+    cover_image = models.ImageField(upload_to='covers/', blank=True, null=True, verbose_name='Обложка')
 
     class Meta:
         verbose_name = 'Заметка'
@@ -28,3 +32,14 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.cover_image:
+            img = Image.open(self.cover_image.file)  # Используем .file для доступа к объекту файла
+            img = img.resize((300, 365))  # Укажите желаемый размер
+            thumb_io = BytesIO()
+            img.save(thumb_io, format='JPEG', quality=85)  # Можно указать другой формат и качество
+            thumb_file = ContentFile(thumb_io.getvalue(), name=self.cover_image.name)
+            self.cover_image.save(self.cover_image.name, thumb_file, save=False)
+
+        super().save(*args, **kwargs)

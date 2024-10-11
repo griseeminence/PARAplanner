@@ -54,6 +54,8 @@ class TaskCreateView(CreateView, LoginRequiredMixin):
     def form_valid(self, form):
         task = form.save(commit=False)
         task.author = self.request.user
+        if 'cover_image' in self.request.FILES:
+            task.cover_image = self.request.FILES['cover_image']
         task.save()
         form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')
