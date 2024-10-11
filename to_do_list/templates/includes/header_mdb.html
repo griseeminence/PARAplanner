@@ -18,17 +18,17 @@
         <div class="collapse navbar-collapse" id="navbarExample01">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item active">
-            <a class="btn btn-outline-light me-2" data-mdb-ripple-init aria-current="page" href="{% url 'para:dashboard' %}">{{ user.username }}</a>
+            <a class="btn btn-outline-light me-2" data-mdb-ripple-init aria-current="page"
+               href="{% url 'para:dashboard' %}">{{ user.username }}</a>
           </li>
           <li class="nav-item">
-
-            <a href="{% url 'logout' %}" class="btn btn-outline-light" data-mdb-ripple-init role="button" data-bs-toggle="button">Logout</a>
-{#            <a class="btn btn-outline-light btn-lg"#}
-{#               data-mdb-ripple-init href="{% url 'logout' %}"#}
-{#               target="blank"#}
-{#               role="button">#}
-{#              Logout#}
-{#            </a>#}
+            <form method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-light" data-mdb-ripple-init role="button"
+                      data-bs-toggle="button">
+                Logout
+              </button>
+            </form>
           </li>
         </ul>
       {% else %}
