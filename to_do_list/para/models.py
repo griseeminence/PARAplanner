@@ -1,8 +1,11 @@
+from io import BytesIO
+
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-
+from PIL import Image
 from comments.models import Comment
 from core.models import ParaTag
 
@@ -37,14 +40,26 @@ class BaseParaModel(models.Model):
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, verbose_name="Приоритет")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
     comments = GenericRelation(Comment, content_type_field='content_type', object_id_field='object_id')
-
+    cover_image = models.ImageField(upload_to='covers/', blank=True, null=True, verbose_name='Обложка')
 
     class Meta:
         abstract = True
 
+    def save(self, *args, **kwargs):
+        if self.cover_image:
+            img = Image.open(self.cover_image.file)  # Используем .file для доступа к объекту файла
+            img = img.resize((300, 365))  # Укажите желаемый размер
+            thumb_io = BytesIO()
+            img.save(thumb_io, format='JPEG', quality=85)  # Можно указать другой формат и качество
+            thumb_file = ContentFile(thumb_io.getvalue(), name=self.cover_image.name)
+            self.cover_image.save(self.cover_image.name, thumb_file, save=False)
+
+        super().save(*args, **kwargs)
+
 
 class Area(BaseParaModel):
     tags = models.ManyToManyField(ParaTag, related_name='areas', blank=True, verbose_name='Тег')
+
     class Meta:
         verbose_name = 'Область'
         verbose_name_plural = 'Области'
@@ -60,6 +75,7 @@ class Area(BaseParaModel):
 class Project(BaseParaModel):
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='projects', blank=True, null=True)
     tags = models.ManyToManyField(ParaTag, related_name='projects', blank=True, verbose_name='Тег')
+
     class Meta:
         verbose_name = 'Проект'
         verbose_name_plural = 'Проекты'

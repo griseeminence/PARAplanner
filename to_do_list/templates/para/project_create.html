@@ -10,7 +10,7 @@
     <div class="col-lg-6">
       <div style="background: hsla(0, 0%, 100%, 0.15); backdrop-filter: blur(30px); z-index: 1;"
            class="card rounded-7 mb-3 p-lg-5">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
           <div class="d-flex justify-content-center mt-4">

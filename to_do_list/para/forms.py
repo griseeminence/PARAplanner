@@ -96,7 +96,7 @@ class ProjectForm(forms.ModelForm):
 
         if commit:
             instance.save()
-            print(f"Проект {instance.id} сохранена")
+            print(f"Проект {instance.id} сохранен")
         return instance
 
 
@@ -155,5 +155,5 @@ class ResourceForm(forms.ModelForm):
 
         if commit:
             instance.save()
-            print(f"Ресурс {instance.id} сохранена")
+            print(f"Ресурс {instance.id} сохранен")
         return instance

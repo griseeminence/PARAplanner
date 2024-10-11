@@ -200,6 +200,8 @@ class ProjectCreateView(CreateView):
     def form_valid(self, form):
         project = form.save(commit=False)
         project.author = self.request.user
+        if 'cover_image' in self.request.FILES:
+            project.cover_image = self.request.FILES['cover_image']
         project.save()
         form.save_m2m()
         new_tag = form.cleaned_data.get('new_tag')
