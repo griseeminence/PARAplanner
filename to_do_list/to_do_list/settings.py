@@ -38,7 +38,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-# Чтобы DjDT знал, запросы с каких IP должен обрабатывать.
+# DjDT settings
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
@@ -85,6 +85,7 @@ WSGI_APPLICATION = 'to_do_list.wsgi.application'
 # DATABASES
 
 # SQLite
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,7 +93,7 @@ WSGI_APPLICATION = 'to_do_list.wsgi.application'
 #     }
 # }
 
-#Postgresql
+# Postgresql
 
 DATABASES = {
     'default': {
@@ -104,7 +105,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
