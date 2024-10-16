@@ -67,7 +67,7 @@ class TaskCreateView(CreateView, LoginRequiredMixin):
 
     Methods:
         form_valid(form): Processes valid form data, assigns the author, saves the image if provided,
-                          and adds a new tag to the task if specified.
+        and adds a new tag to the task if specified.
     """
 
     template_name = 'tasks/task_create.html'

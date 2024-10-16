@@ -1,8 +1,16 @@
 from django import forms
+
 from para.models import Area, Project, Resource
 
 
 class AreaForm(forms.ModelForm):
+    """
+    A form for creating and updating Area instances.
+
+    Attributes:
+        new_tag (CharField): A field for entering a new tag, which is optional.
+    """
+
     new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
 
     class Meta:
@@ -41,6 +49,11 @@ class AreaForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+        Save the Area instance to the database.
+        (Using this to add different fields like tags and images)
+        """
+
         instance = super().save(commit=False)
 
         if commit:
@@ -50,6 +63,13 @@ class AreaForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    """
+    A form for creating and updating Project instances.
+
+    Attributes:
+        new_tag (CharField): A field for entering a new tag, which is optional.
+    """
+
     new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
 
     class Meta:
@@ -92,6 +112,11 @@ class ProjectForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+        Save the Project instance to the database.
+        (Using this to add different fields like tags and images)
+        """
+
         instance = super().save(commit=False)
 
         if commit:
@@ -101,6 +126,13 @@ class ProjectForm(forms.ModelForm):
 
 
 class ResourceForm(forms.ModelForm):
+    """
+    A form for creating and updating Resource instances.
+
+    Attributes:
+        new_tag (CharField): A field for entering a new tag, which is optional.
+    """
+
     new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
 
     class Meta:
@@ -151,6 +183,11 @@ class ResourceForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+        Save the Resource instance to the database.
+        (Using this to add different fields like tags and images)
+        """
+
         instance = super().save(commit=False)
 
         if commit:
