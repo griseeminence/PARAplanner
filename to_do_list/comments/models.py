@@ -6,34 +6,32 @@ from django.contrib.contenttypes.models import ContentType
 User = get_user_model()
 
 
-# TODO: использовать обобщённые связи (Generic Relations)
-# изменить привязку к tasks, сделав комментарии общедоступными для любой модели. Пример ниже
-# Обобщённые поля для связи с любой моделью
-# content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-# object_id = models.PositiveIntegerField()
-# content_object = GenericForeignKey('content_type', 'object_id')
-
-
 class Comment(models.Model):
-    text = models.TextField('Текст комментария', max_length=2000, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Добавлено')
-    updated = models.DateTimeField(auto_now=True, verbose_name='Отредактировано')
-    active = models.BooleanField(default=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор комментария')
+    """
+    Model representing a comment associated with various content types.
+    This model allows users to leave comments on different models through
+    Django's GenericForeignKey mechanism. It stores the comment's content,
+    author, timestamps, and its relation to a specific content type.
+    """
 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True,
-                                     verbose_name='Тип Контента')
+    text = models.TextField(max_length=2000, blank=True, null=True, verbose_name='Text')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Created')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Updated')
+    active = models.BooleanField(default=True, verbose_name='Active')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Content Type'
+    )
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
         ordering = ('-created',)
 
     def __str__(self):
         return (
-            f"Комментарий пользователя {self.author}"
-            f"Дата публикации комментария: {self.created}"
-
+            f"Commented by: {self.author}"
+            f"Created: {self.created}"
         )

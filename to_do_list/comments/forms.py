@@ -1,8 +1,16 @@
-from .models import Comment
 from django import forms
+
+from .models import Comment
 
 
 class CommentForm(forms.ModelForm):
+    """
+    Form for creating and editing comments.
+    This form is based on the `Comment` model and provides a user-friendly
+    interface for submitting comments. Some fields are excluded from the form
+    since they are managed automatically or not intended to be user-editable.
+    """
+
     class Meta:
         model = Comment
         fields = '__all__'
@@ -10,7 +18,7 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'text': forms.Textarea(attrs={
                 'rows': 3,
-                'placeholder': 'Напишите комментарий...',
+                'placeholder': 'Type your comment...',
                 'class': 'form-control',
             }),
         }
