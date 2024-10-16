@@ -6,7 +6,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    """Админка для пользователей."""
+    """Admin interface for managing User instances."""
     list_filter = ('email', 'first_name')
     list_display = (
         'email',

@@ -1,24 +1,27 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-#TODO: Добавить валидатор для уникальности email
 
 class User(AbstractUser):
-    """Модель пользователей."""
+    """Custom user model extending the built-in AbstractUser."""
+
     email = models.EmailField(
         'Email',
         max_length=200,
-        unique=True, )
+        unique=True,
+    )
     first_name = models.CharField(
-        'Имя',
-        max_length=150)
+        'First Name',
+        max_length=150
+    )
     last_name = models.CharField(
-        'Фамилия',
-        max_length=150)
+        'Last Name',
+        max_length=150
+    )
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
         ordering = ('id',)
 
     def __str__(self):

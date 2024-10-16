@@ -1,20 +1,19 @@
 from django.contrib import admin
+
 from .models import Task
 
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    """Админка для задач."""
+    """Admin interface for managing Task instances."""
+
     list_display = ('title', 'status', 'author', 'status', 'get_tags')
     list_filter = ('title', 'deadline', 'author', 'status', 'tags')
 
     def get_tags(self, obj):
-        """Отображает теги, связанные с задачей."""
+        """
+        Displays the tags associated with the task.
+        """
         return ", ".join([tag.title for tag in obj.tags.all()])
-    get_tags.short_description = 'Теги'
 
-# @admin.register(Tag)
-# class TagAdmin(admin.ModelAdmin):
-#     """Админка для тегов."""
-#     list_display = ('title',)
-#     list_filter = ('title',)
+    get_tags.short_description = 'Tags'
