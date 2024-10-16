@@ -19,6 +19,7 @@ class AreaAdmin(admin.ModelAdmin):
         """
         Displays the tags associated with the area.
         """
+
         return ", ".join([tag.title for tag in obj.tags.all()])
 
     get_tags.short_description = 'Tags'

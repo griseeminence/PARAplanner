@@ -1,10 +1,16 @@
 from django import forms
 
-from core.models import ParaTag
 from notes.models import Note
 
 
 class NoteForm(forms.ModelForm):
+    """
+    A form for creating and updating Note instances.
+
+    Attributes:
+        new_tag (CharField): A field for entering a new tag, which is optional.
+    """
+
     new_tag = forms.CharField(max_length=30, required=False, label="Новый тег")
 
     class Meta:
@@ -47,6 +53,11 @@ class NoteForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+        Save the Note instance to the database.
+        (Using this to add different fields like tags and images)
+        """
+
         instance = super().save(commit=False)
 
         if commit:

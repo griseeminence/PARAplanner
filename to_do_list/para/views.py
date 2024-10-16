@@ -44,6 +44,7 @@ class AreaListView(FilterView):
         Adds additional context to the view.
         Can be extended if more data needs to be passed to the template.
         """
+
         context = super().get_context_data(**kwargs)
         return context
 
