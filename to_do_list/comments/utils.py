@@ -6,7 +6,10 @@ from comments.models import Comment
 
 
 def get_comment(comment_id, obj, model):
-    """Получение комментария по id для указанной модели"""
+    """
+    Retrieve a specific comment by its ID and the associated object.
+    Uses get_object_or_404 to avoid manual exception handling.
+    """
     try:
         return Comment.objects.get(
             id=comment_id,
@@ -18,11 +21,16 @@ def get_comment(comment_id, obj, model):
 
 
 def user_is_author(comment, user):
-    """Проверка, является ли пользователь автором комментария"""
+    """
+    Check if the user is the author of the given comment.
+    """
     return user == comment.author
 
 
 def handle_comment_creation(request, obj, redirect_url):
+    """
+    Handle the creation of a new comment and link it to an object.
+    """
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
@@ -33,6 +41,9 @@ def handle_comment_creation(request, obj, redirect_url):
 
 
 def handle_comment_editing(request, obj, redirect_url):
+    """
+    Handle the editing of an existing comment.
+    """
     comment_id = request.POST.get('comment_id')
     comment_text = request.POST.get('text')
     comment = get_comment(comment_id, obj, type(obj))
@@ -44,6 +55,9 @@ def handle_comment_editing(request, obj, redirect_url):
 
 
 def handle_edit_request(request, obj, get_context_data_func):
+    """
+    Prepare context data for rendering a comment-editing form.
+    """
     comment_id = request.POST.get('comment_id')
     comment = get_comment(comment_id, obj, type(obj))
 
@@ -55,6 +69,9 @@ def handle_edit_request(request, obj, get_context_data_func):
 
 
 def handle_comment_deletion(request, obj, redirect_url):
+    """
+    Handle the deletion of an existing comment.
+    """
     comment_id = request.POST.get('comment_id')
     comment = get_comment(comment_id, obj, type(obj))
 
