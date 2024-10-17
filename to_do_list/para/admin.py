@@ -2,71 +2,64 @@ from django.contrib import admin
 from para.models import Area, Project, Resource, ResourceType
 
 
-@admin.register(Area)
-class AreaAdmin(admin.ModelAdmin):
-    """
-    Admin interface for the Area model.
-
-    This class customizes the admin display for areas, showing relevant
-    information such as title, description, and associated tags.
-    """
+class BaseParaAdmin(admin.ModelAdmin):
+    """Base admin configuration for models with similar admin behavior."""
 
     list_display = (
-        'title', 'description', 'created', 'is_archived', 'status', 'deadline', 'priority', 'author', 'get_tags')
-    list_filter = ('title', 'created', 'author', 'status', 'is_archived', 'status', 'deadline', 'priority', 'tags')
+        'title',
+        'description',
+        'created',
+        'is_archived',
+        'status',
+        'deadline',
+        'priority',
+        'author',
+        'get_tags'
+    )
+    list_filter = (
+        'title',
+        'created',
+        'author',
+        'status',
+        'is_archived',
+        'deadline',
+        'priority',
+        'tags'
+    )
+    search_fields = ('title', 'description', 'author__username')
+    ordering = ('-created', 'priority', 'deadline')
+    autocomplete_fields = ['tags']
+    date_hierarchy = 'created'
+    list_per_page = 20
+    readonly_fields = ('id',)
+    prepopulated_fields = {'title': ('title',)}
 
     def get_tags(self, obj):
-        """
-        Displays the tags associated with the area.
-        """
+        """Retrieve and display related tags as a comma-separated string."""
 
         return ", ".join([tag.title for tag in obj.tags.all()])
 
     get_tags.short_description = 'Tags'
+
+
+# Наследуемся от базового класса для конкретных моделей
+
+@admin.register(Area)
+class AreaAdmin(BaseParaAdmin):
+    """Admin configuration for the Area model."""
+    pass
 
 
 @admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    """
-    Admin interface for the Project model.
-
-    This class customizes the admin display for areas, showing relevant
-    information such as title, description, and associated tags.
-    """
-
-    list_display = (
-        'title', 'description', 'created', 'is_archived', 'status', 'deadline', 'priority', 'author', 'get_tags')
-    list_filter = ('title', 'created', 'author', 'status', 'is_archived', 'status', 'deadline', 'priority', 'tags')
-
-    def get_tags(self, obj):
-        """
-        Displays the tags associated with the project.
-        """
-        return ", ".join([tag.title for tag in obj.tags.all()])
-
-    get_tags.short_description = 'Tags'
+class ProjectAdmin(BaseParaAdmin):
+    """Admin configuration for the Project model."""
+    pass
 
 
 @admin.register(Resource)
-class ResourceAdmin(admin.ModelAdmin):
-    """
-    Admin interface for the Resource model.
-
-    This class customizes the admin display for areas, showing relevant
-    information such as title, description, and associated tags.
-    """
-
-    list_display = (
-        'title', 'description', 'created', 'is_archived', 'status', 'deadline', 'priority', 'author', 'get_tags')
-    list_filter = ('title', 'created', 'author', 'status', 'is_archived', 'status', 'deadline', 'priority', 'tags')
-
-    def get_tags(self, obj):
-        """
-        Displays the tags associated with the resource.
-        """
-        return ", ".join([tag.title for tag in obj.tags.all()])
-
-    get_tags.short_description = 'Tags'
+class ResourceAdmin(BaseParaAdmin):
+    """Admin configuration for the Resource model."""
+    pass
 
 
 @admin.register(ResourceType)
@@ -79,3 +72,5 @@ class ResourceTypeAdmin(admin.ModelAdmin):
 
     list_display = ('title',)
     list_filter = ('title',)
+    search_fields = ('title',)
+    ordering = ('title',)

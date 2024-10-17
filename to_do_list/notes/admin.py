@@ -12,13 +12,35 @@ class NoteAdmin(admin.ModelAdmin):
     information such as title, description, and associated tags.
     """
 
-    list_display = ('title', 'content', 'created', 'area', 'project', 'resource', 'author', 'get_tags')
-    list_filter = ('title', 'content', 'created', 'area', 'project', 'resource', 'author', 'tags')
+    list_display = (
+        'title',
+        'content',
+        'created',
+        'area',
+        'project',
+        'resource',
+        'author',
+        'get_tags'
+    )
+    list_filter = (
+        'title',
+        'content',
+        'created',
+        'area',
+        'project',
+        'resource',
+        'author',
+        'tags'
+    )
+    search_fields = ('title', 'content', 'author__username')
+    ordering = ('-created',)
+    autocomplete_fields = ['tags']
+    list_per_page = 20
+    readonly_fields = ('id',)
+    prepopulated_fields = {'title': ('title',)}
 
     def get_tags(self, obj):
-        """
-        Displays the tags associated with the area.
-        """
+        """Displays the tags associated with the area."""
 
         return ", ".join([tag.title for tag in obj.tags.all()])
 

@@ -13,3 +13,7 @@ class CommentAdmin(admin.ModelAdmin):
     """
     list_display = ('text', 'created', 'author', 'updated', 'active')
     list_filter = ('created', 'author', 'updated', 'active',)
+    search_fields = ('text', 'author__username')
+    readonly_fields = ('created', 'updated')
+    list_editable = ('active',)
+    ordering = ('-created',)

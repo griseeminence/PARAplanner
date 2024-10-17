@@ -9,3 +9,7 @@ class ParaTagAdmin(admin.ModelAdmin):
 
     list_display = ('title',)
     list_filter = ('title',)
+    search_fields = ('title',)
+    ordering = ('title',)
+    readonly_fields = ('id',)
+

@@ -1,19 +1,11 @@
 from django.contrib import admin
 
 from .models import Task
+from para.admin import BaseParaAdmin
 
 
 @admin.register(Task)
-class TaskAdmin(admin.ModelAdmin):
+class TaskAdmin(BaseParaAdmin):
     """Admin interface for managing Task instances."""
 
-    list_display = ('title', 'status', 'author', 'status', 'get_tags')
-    list_filter = ('title', 'deadline', 'author', 'status', 'tags')
-
-    def get_tags(self, obj):
-        """
-        Displays the tags associated with the task.
-        """
-        return ", ".join([tag.title for tag in obj.tags.all()])
-
-    get_tags.short_description = 'Tags'
+    pass
