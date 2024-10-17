@@ -7,7 +7,7 @@ It also includes advanced features like tagging, comments, dashboards, and searc
 to enhance productivity. This project is built using Django and PostgreSQL to ensure scalability
 and robust data handling.
 
-### Table of Contents
+### Table of Contents:
 
 1. Project Features
 2. Technologies Used
