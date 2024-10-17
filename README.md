@@ -129,25 +129,45 @@ in whole project just by **"import <function-name>"**.
     
     **_Example of comment utils:_**
     ```python
-    def get_comment(comment_id, obj, model):
-    try:
-        return Comment.objects.get(
-            id=comment_id,
-            content_type=ContentType.objects.get_for_model(model),
-            object_id=obj.id
-        )
-    except Comment.DoesNotExist:
-        return None
+    def handle_edit_request(request, obj, get_context_data_func):
+   
+        comment_id = request.POST.get('comment_id')
+        comment = get_comment(comment_id, obj, type(obj))
+    
+        if user_is_author(comment, request.user):
+            context = get_context_data_func()
+            context.update({
+                'editing_comment': comment,
+                'comment_form': CommentForm(initial={'text': comment.text})
+            })
+            return context
+        return {}  # Optional: Handle unauthorized access
+   
+   class AreaDetailView(DetailView, LoginRequiredMixin):
+        ...
+   
+        def get_context_data(self, **kwargs):
+            ...
 
-    def handle_comment_creation(request, obj, redirect_url):
-        comment_form = CommentForm(request.POST)
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.author = request.user
-            comment.content_object = obj
-            comment.save()
-            return redirect(redirect_url, pk=obj.pk)
-    ```
+        def post(self, request, *args, **kwargs):
+            self.object = self.get_object()
+
+            if 'submit_comment' in request.POST:
+                return handle_comment_creation(request, self.object, self.redirect_url)
+
+            elif 'edit_comment' in request.POST:
+                return handle_comment_editing(request, self.object, self.redirect_url)
+
+            elif 'edit' in request.POST:
+                context = handle_edit_request(request, self.object, self.get_context_data)
+                if context:
+                return self.render_to_response(context)
+
+            elif 'delete_comment' in request.POST:
+                return handle_comment_deletion(request, self.object, self.redirect_url)
+
+            return self.get(request, *args, **kwargs)
+    ``` 
     
 ### Admin Management
 
@@ -159,43 +179,41 @@ in whole project just by **"import <function-name>"**.
 _Example admin setup:_
 
 ```python
-@admin.register(Area)
-class AreaAdmin(admin.ModelAdmin):
-    """Admin configuration for the Area model."""
+class BaseParaAdmin(admin.ModelAdmin):
+    """Base admin configuration for models with similar admin behavior."""
 
     list_display = (
-        'title', 
-        'description', 
-        'created', 
-        'is_archived', 
-        'status', 
-        'deadline', 
-        'priority', 
-        'author', 
-        'get_tags'
+        'title',
+        '...',
     )
-    
     list_filter = (
-        'title', 
-        'created', 
-        'author', 
-        'status', 
-        'is_archived', 
-        'deadline', 
-        'priority', 
-        'tags'
+        'title',
+        '...',
     )
-    
     search_fields = ('title', 'description', 'author__username')
     ordering = ('-created', 'priority', 'deadline')
     autocomplete_fields = ['tags']
     date_hierarchy = 'created'
-    
+    list_per_page = 20
+    readonly_fields = ('id',)
+    prepopulated_fields = {'title': ('title',)}
+
     def get_tags(self, obj):
         """Retrieve and display related tags as a comma-separated string."""
+
         return ", ".join([tag.title for tag in obj.tags.all()])
 
     get_tags.short_description = 'Tags'
+
+
+# Наследуемся от базового класса для конкретных моделей
+
+@admin.register(Area)
+class AreaAdmin(BaseParaAdmin):
+    """Admin configuration for the Area model."""
+    pass
+
+... ... ...
 ```
 
 ### Future Improvements
