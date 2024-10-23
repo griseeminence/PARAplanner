@@ -125,9 +125,9 @@ and robust data handling.
 3. Tags System
     - ParaTag: Tags with a Many-to-Many relationship across all entities.
 4. Common logic for creating comments, PARA-elements etc. optimized for "reusability"
-in whole project just by **"import <function-name>"**.
-    
-    **_Example of comment utils:_**
+   in whole project just by **"import <function-name>"**.
+
+   **_Example of comment utils:_**
     ```python
     def handle_edit_request(request, obj, get_context_data_func):
    
@@ -168,7 +168,7 @@ in whole project just by **"import <function-name>"**.
 
             return self.get(request, *args, **kwargs)
     ``` 
-    
+
 ### Admin Management
 
 - Admin Interface Customizations
@@ -213,7 +213,8 @@ class AreaAdmin(BaseParaAdmin):
     """Admin configuration for the Area model."""
     pass
 
-... ... ...
+
+.........
 ```
 
 ### Future Improvements
