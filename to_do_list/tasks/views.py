@@ -12,6 +12,7 @@ from para.models import Project
 from .models import Task
 from .forms import TaskForm
 
+
 class TaskListView(FilterView):
     """
     A view for displaying a filtered and paginated list of tasks.
