@@ -80,6 +80,7 @@ class Project(BaseParaModel):
     """
     Model representing a project within a specific area.
     """
+
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, related_name='projects', blank=True, null=True)
     tags = models.ManyToManyField(ParaTag, related_name='projects', blank=True, verbose_name='Tag')
 

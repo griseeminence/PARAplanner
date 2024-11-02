@@ -10,6 +10,7 @@ def get_comment(comment_id, obj, model):
     Retrieve a specific comment by its ID and the associated object.
     Uses get_object_or_404 to avoid manual exception handling.
     """
+
     content_type = ContentType.objects.get_for_model(type(obj))
     return get_object_or_404(Comment, id=comment_id, content_type=content_type, object_id=obj.id)
 

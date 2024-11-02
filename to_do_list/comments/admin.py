@@ -11,6 +11,7 @@ class CommentAdmin(admin.ModelAdmin):
     This class customizes the admin display for areas, showing relevant
     information such as title, description.
     """
+
     list_display = ('text', 'created', 'author', 'updated', 'active')
     list_filter = ('created', 'author', 'updated', 'active',)
     search_fields = ('text', 'author__username')

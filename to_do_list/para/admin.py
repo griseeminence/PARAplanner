@@ -47,12 +47,14 @@ class BaseParaAdmin(admin.ModelAdmin):
 @admin.register(Area)
 class AreaAdmin(BaseParaAdmin):
     """Admin configuration for the Area model."""
+
     pass
 
 
 @admin.register(Project)
 class ProjectAdmin(BaseParaAdmin):
     """Admin configuration for the Project model."""
+
     pass
 
 
