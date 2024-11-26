@@ -3,3 +3,6 @@ def connection_test(conn):
 
 def para_test(*args, **kwargs):
     pass
+
+def para_creation_test(*args, **kwargs):
+    passg
